@@ -1,0 +1,13 @@
+GET http://localhost:5090/attendance
+###
+GET http://localhost:5090/attendance/member/4
+###
+POST http://localhost:5090/attendance
+Content-Type: application/json
+
+{
+    "memberId": 1,
+    "attendanceDate": "2026-03-21"
+}
+###
+DELETE http://localhost:5090/attendance/2

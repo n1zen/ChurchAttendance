@@ -1,0 +1,36 @@
+using Microsoft.EntityFrameworkCore;
+
+using ChurchAttendanceApp.Models;
+
+namespace ChurchAttendanceApp.Data;
+
+public class ChurchDbContext : DbContext
+{
+    public ChurchDbContext(DbContextOptions<ChurchDbContext> options) : base(options) { }
+
+    public DbSet<Member> Members { get; set; }
+    public DbSet<AttendanceRecord> AttendanceRecords { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Member>(entity =>
+        {
+            entity.HasIndex(m => m.MemberId).IsUnique();
+            entity.HasIndex(m => m.Name).IsUnique();
+            
+            entity.Property(e => e.Birthday).HasConversion<string>();
+            entity.Property(e => e.DateBaptized).HasConversion<string>();
+            entity.Property(e => e.AttendanceDate).HasConversion<string>();
+            entity.Property(e => e.DateRegistered).HasConversion<string>();
+
+            entity.HasMany(m => m.AttendanceRecords)
+                .WithOne(a => a.Member)
+                .HasForeignKey(a => a.MemberId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        modelBuilder.Entity<AttendanceRecord>(entity =>
+        {
+            entity.Property(e => e.AttendanceDate).HasConversion<string>();
+        });
+    }
+}
