@@ -2,7 +2,7 @@
 @model ChurchAttendanceApp.Pages.MembersModel
 @{ ViewData["Title"] = "Member List"; }
 <section class="card m-2 text-bg-light border-success border-3 w-100">
-    <div class="card-header px-5 py-3">
+    <div class="card-header px-5 py-3" style="background: #20c997">
         <h2 class="card-title text-center">List of Members</h2>
     </div>
     <div class="card-body pb-3">
@@ -13,33 +13,33 @@
                 <table class="table table-hover table-striped align-middle">
                     <thead>
                         <tr class="text-center">
-                            <th>Member ID</th>
-                            <th>Name</th>
-                            <th>Gender</th>
-                            <th>Date Baptized</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Membership Status</th>
-                            <th>Date Registered</th>
+                            <th class="text-nowrap">Member ID</th>
+                            <th class="text-nowrap">Name</th>
+                            <th class="text-nowrap">Gender</th>
+                            <th class="text-nowrap">Date Baptized</th>
+                            <th class="text-nowrap">Email</th>
+                            <th class="text-nowrap">Phone</th>
+                            <th class="text-nowrap">Membership Status</th>
+                            <th class="text-nowrap">Date Registered</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach(var member in Model.Members) {
                             <tr class="text-center">
-                                <td>@member.MemberId</td>
-                                <td>@member.Name</td>
-                                <td>@member.Gender</td>
-                                <td>
+                                <td class="text-nowrap">@member.MemberId</td>
+                                <td class="text-nowrap">@member.Name</td>
+                                <td class="text-nowrap">@member.Gender</td>
+                                <td class="text-nowrap">
                                     @if(member.DateBaptized != null){ @member.DateBaptized } else { @Model.Unavailable }
                                 </td>
-                                <td>
+                                <td class="text-nowrap">
                                     @if(member.Email != null){ @member.Email } else { @Model.Unavailable }
                                 </td>
-                                <td>
+                                <td class="text-nowrap">
                                     @if(member.Phone != null){ @member.Phone } else { @Model.Unavailable }
                                 </td>
-                                <td>@member.MembershipStatus</td>
-                                <td>@member.DateRegistered</td>
+                                <td class="text-nowrap">@member.MembershipStatus</td>
+                                <td class="text-nowrap">@member.DateRegistered</td>
                             </tr>
                         }
                     </tbody>
