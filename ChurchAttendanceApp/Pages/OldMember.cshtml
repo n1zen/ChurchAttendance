@@ -1,4 +1,93 @@
 ﻿@page
 @model ChurchAttendanceApp.Pages.OldMemberModel
 @{ ViewData["Title"] = "Old Members"; }
-<h1>Old Members</h1>
+<div class="card m-2 text-bg-light border-success w-100 border-3" style="max-width: 600px">
+    <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
+        <h1 class="text-center">Confirm Attendance</h3>
+    </div>
+    <div class="card-body">
+        <form novalidate asp-page="/OldMember" method="post">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                foreach (var error in ViewData.ModelState[string.Empty]?.Errors ?? Enumerable.Empty<Microsoft.AspNetCore.Mvc.ModelBinding.ModelError>())
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @error.ErrorMessage
+                    </div>
+                }
+            }
+            <div class="mb-3">
+                <label for="memberSearch" class="form-label">Find your name or ID</label>
+                <input type="text" class="form-control" id="memberSearch"
+                    placeholder="Type your name or ID"
+                    list="memberList"
+                    autocomplete="off" />
+                <datalist id="memberList">
+                    @foreach ( var member in Model.Members )
+                    {
+                        <option value="@member.MemberId">@member.MemberId | @member.Name</option>
+                    }
+                </datalist>
+                <div class="invalid-feedback" id="memberSearchFeedback">
+                    Please select a valid member from the list.
+                </div>
+                <input asp-for="SelectedMemberId" type="hidden" id="selectedMemberId" name="SelectedMemberId" />
+            </div>
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const searchInput = document.getElementById('memberSearch');
+    const datalist = document.getElementById('memberList');
+    const hiddenInput = document.getElementById('selectedMemberId');
+    const feedback = document.getElementById('memberSearchFeedback');
+
+    // add all the existing members
+    const allMembers = @Html.Raw(
+        System.Text.Json.JsonSerializer.Serialize(
+            Model.Members.Select(m => new { id = m.MemberId, name = m.Name })
+        )
+    );
+
+    // filter search
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase().trim();
+
+        hiddenInput.value = '';
+
+        datalist.innerHTML = '';
+        const filtered = allMembers.filter(m =>
+            m.id.toLowerCase().includes(query) ||
+            m.name.toLowerCase().includes(query)
+        );
+        filtered.forEach(m => {
+            const option = document.createElement('option');
+            option.value = m.id;
+            option.label = `${m.id} | ${m.name}`; 
+            datalist.appendChild(option);
+        });
+
+        const exactMatch = allMembers.find(m =>
+            m.id.toLowerCase() === query
+        );
+
+        if (exactMatch) {
+            hiddenInput.value = exactMatch.id;
+            searchInput.classList.remove('is-invalid');
+            searchInput.classList.add('is-valid');
+            feedback.style.display = 'none';
+        }
+    });
+
+    // Validate on blur in case user typed a partial value and clicked away
+    searchInput.addEventListener('blur', () => {
+        if (!hiddenInput.value) {
+            searchInput.classList.add('is-invalid');
+            searchInput.classList.remove('is-valid');
+            feedback.style.display = 'block';
+        }
+    });
+</script>
