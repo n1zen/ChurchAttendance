@@ -1,6 +1,6 @@
 ﻿@page
 @model ChurchAttendanceApp.Pages.OldMemberModel
-@{ ViewData["Title"] = "Old Members"; }
+@{ ViewData["Title"] = "Attendance"; }
 <div class="card m-2 text-bg-light border-success w-100 border-3" style="max-width: 600px">
     <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
         <h1 class="text-center">Confirm Attendance</h3>
@@ -25,7 +25,7 @@
                 <datalist id="memberList">
                     @foreach ( var member in Model.Members )
                     {
-                        <option value="@member.MemberId">@member.MemberId | @member.Name</option>
+                        <option value="@member.MemberId">@member.Name</option>
                     }
                 </datalist>
                 <div class="invalid-feedback" id="memberSearchFeedback">
