@@ -36,24 +36,24 @@ public class BibleVerseService
     };
 
     public async Task<BibleVerse?> GetRandomVerseAsync(string translation = "NKJV")
-{
-    BibleVerse? verse = null;
-
-    // Keep retrying until we get a book within the standard 66
-    do
     {
-        var response = await _httpClient.GetAsync($"https://bolls.life/get-random-verse/{translation}/");
-        if (!response.IsSuccessStatusCode) return null;
+        BibleVerse? verse = null;
 
-        var json = await response.Content.ReadAsStringAsync();
-        verse = JsonSerializer.Deserialize<BibleVerse>(json);
-    } while (verse == null || verse.Book > 66);
+        // Keep retrying until we get a book within the standard 66
+        do
+        {
+            var response = await _httpClient.GetAsync($"https://bolls.life/get-random-verse/{translation}/");
+            if (!response.IsSuccessStatusCode) return null;
 
-    verse.Text = Regex.Replace(verse.Text, @"<[^>]+>", "");   // remove tags
-    verse.Text = Regex.Replace(verse.Text, @"\d+", "");        // remove all numbers
-    verse.Text = Regex.Replace(verse.Text, @"\s+([;:,.])", "$1"); // fix space before punctuation
-    verse.Text = Regex.Replace(verse.Text, @"\s{2,}", " ").Trim(); // fix double spaces
+            var json = await response.Content.ReadAsStringAsync();
+            verse = JsonSerializer.Deserialize<BibleVerse>(json);
+        } while (verse == null || verse.Book > 66);
 
-    return verse;
+        verse.Text = Regex.Replace(verse.Text, @"<[^>]+>", "");   // remove tags
+        verse.Text = Regex.Replace(verse.Text, @"\d+", "");        // remove all numbers
+        verse.Text = Regex.Replace(verse.Text, @"\s+([;:,.])", "$1"); // fix space before punctuation
+        verse.Text = Regex.Replace(verse.Text, @"\s{2,}", " ").Trim(); // fix double spaces
+
+        return verse;
     }
 }

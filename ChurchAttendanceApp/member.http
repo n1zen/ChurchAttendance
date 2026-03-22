@@ -1,42 +1,40 @@
 
 GET http://localhost:5090/Member/
 ###
-GET http://localhost:5090/Member/4
+GET http://localhost:5090/Member/6
 ###
 POST http://localhost:5090/Member/
 Content-Type: application/json
 
 {
-    "memberId": "SDA-IzenTorres",
-    "name": "Izen Torres",
+    "memberId": "SDA-RutuelRhey",
+    "name": "Burherhey",
     "gender": "Male",
-    "birthday": "2004-07-02",
-    "address": "Sta. Quiteria",
-    "email": "izen@gmail.com",
-    "membershipStatus": "Visitor",
-    "attendanceDate": "2026-03-21",
-    "dateRegistered": "2026-03-16"
+    "birthday": "1914-07-08",
+    "address": "New zealand",
+    "email": "casey@gmail.com",
+    "membershipStatus": "Visitor"
 }
 ###
-PUT http://localhost:5090/Member/4
+PUT http://localhost:5090/Member/5
 Content-Type: application/json
 
 {
-    "id": 4,
-    "memberId": "SDA-IzenTorres",
-    "name": "Izen Torres",
+    "id": 5,
+    "memberId": "SDA-BenedictProbst",
+    "name": "Burherhey",
     "gender": "Male",
-    "birthday": "2004-07-02",
-    "dateBaptized": "2013-12-01",
+    "birthday": "2005-07-08",
+    "dateBaptized": "2005-07-07",
     "address": "Sta. Quiteria",
-    "email": "izen@gmail.com",
-    "phone": "09762812013",
+    "email": "casey@gmail.com",
+    "phone": "0273058872",
     "membershipStatus": "Sabbath School Member",
     "attendanceDate": "2026-03-21",
-    "dateRegistered": "2026-03-16"
+    "dateRegistered": "2026-03-21"
 }
 ###
-DELETE http://localhost:5090/Member/3
+DELETE http://localhost:5090/Member/6
 
 ###
 POST http://localhost:5090/Member/

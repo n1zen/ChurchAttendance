@@ -1,7 +1,7 @@
 ﻿@page
 @model ChurchAttendanceApp.Pages.MembersModel
 @{ ViewData["Title"] = "Member List"; }
-<section class="card m-2 text-bg-light border-success border-3" style="width: 90%">
+<section class="card m-2 text-bg-light border-success border-3 w-100">
     <div class="card-header px-5 py-3">
         <h2 class="card-title text-center">List of Members</h2>
     </div>
@@ -9,40 +9,42 @@
         @if(!Model.Members.Any()) {
             <h5 class="text-danger text-center">No members registered yet.</h5>
         } else {
-            <table class="table table-hover table-striped table-responsive align-center">
-                <thead>
-                    <tr>
-                        <th>Member ID</th>
-                        <th>Name</th>
-                        <th>Gender</th>
-                        <th>Date Baptized</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Membership Status</th>
-                        <th>Date Registered</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var member in Model.Members) {
-                        <tr>
-                            <td>@member.MemberId</td>
-                            <td>@member.Name</td>
-                            <td>@member.Gender</td>
-                            <td>
-                                @if(member.DateBaptized != null){ @member.DateBaptized } else { <p>Unavailable</p> }
-                            </td>
-                            <td>
-                                @if(member.Email != null){ @member.Email } else { <p>Unavailable</p> }
-                            </td>
-                            <td>
-                                @if(member.Phone != null){ @member.Phone } else { <p>Unavailable</p> }
-                            </td>
-                            <td>@member.MembershipStatus</td>
-                            <td>@member.DateRegistered</td>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Member ID</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Date Baptized</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Membership Status</th>
+                            <th>Date Registered</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach(var member in Model.Members) {
+                            <tr class="text-center">
+                                <td>@member.MemberId</td>
+                                <td>@member.Name</td>
+                                <td>@member.Gender</td>
+                                <td>
+                                    @if(member.DateBaptized != null){ @member.DateBaptized } else { @Model.Unavailable }
+                                </td>
+                                <td>
+                                    @if(member.Email != null){ @member.Email } else { @Model.Unavailable }
+                                </td>
+                                <td>
+                                    @if(member.Phone != null){ @member.Phone } else { @Model.Unavailable }
+                                </td>
+                                <td>@member.MembershipStatus</td>
+                                <td>@member.DateRegistered</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
     </div>
 </section>
