@@ -15,7 +15,7 @@ public class MemberService
 
     public List<Member> GetAll() =>
         _context.Members
-            .Include(m => m.AttendanceRecords)
+            .Include(m => m.AttendanceRecords) 
             .ToList();
     
     public Member? Get(int id) =>

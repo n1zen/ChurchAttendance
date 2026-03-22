@@ -2,8 +2,8 @@ namespace ChurchAttendanceApp.Models;
 
 public class Member
 {
-    public int Id { get; set; }
-    public required string MemberId { get; set; }
+    public int Id { get; set; } // Unique primary ID
+    public required string MemberId { get; set; } // Custom ID "SDA-Rhoy"
     public required string Name { get; set; }    
     public required string Gender { get; set; }
     public DateOnly? Birthday { get; set; }

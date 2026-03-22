@@ -9,6 +9,9 @@ namespace ChurchAttendanceApp.Pages
     {
         private readonly MemberService _memberService;
 
+        
+        public string Unavailable = "Unavailable";
+
         public List<Member> Members { get; set; } = [];
 
         public MembersModel(MemberService memberService)

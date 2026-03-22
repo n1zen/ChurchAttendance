@@ -57,9 +57,6 @@ public class MemberController : ControllerBase
         if (existingMember == null)
             return NotFound();
         
-        // _memberService.Update(member);
-
-        // return NoContent();
         try
         {
             _memberService.Update(member);

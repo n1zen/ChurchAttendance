@@ -1,10 +1,10 @@
 @page
 @model IndexModel
 @{ ViewData["Title"] = "Home"; }
-<section class="card m-2 text-bg-light border-success" style="width: 50%">
+<section class="card m-2 text-bg-light border-success w-100" style="max-width: 600px">
     <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3">
-        <h1 class="card-title">Welcome! Happy Sabbath!</h1>
-        <p class="card-text text-secondary">Current registered members: @Model.MemberCount</p>
+        <h1 class="card-title text-center">Welcome! Happy Sabbath!</h1>
+        <p class="card-text text-secondary text-center">Current registered members: @Model.MemberCount</p>
     </div>
     <div class="card-body d-flex flex-column justify-content-center align-items-center pb-3 text-wrap">
         <!-- Random Bible Verse -->
@@ -20,14 +20,14 @@
         }
     </div>
 </section>
-<section class="card m-2 text-bt-light border-success " style="width: max-content">
+<section class="card m-2 text-bt-light border-success w-100" style="max-width: 600px">
     <!-- Lookup Form -->
     <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 pb-1 pt-2">
             <h3 class="card-title">Church Attendance</h3>
             <p class="card-subtitle text-body-secondary">Select your option</p>
         </div>
-    <div class="card-body d-flex flex-row justify-content-around">
-        <button class="btn btn-primary" id="existing-member-btn">Find my name!</button>
-        <button class="btn btn-primary" id="new-member-btn">I'm new here!</button>
+    <div class="card-body d-flex flex-column flex-sm-row justify-content-around gap-2">
+        <a class="btn btn-primary" id="existing-member-btn" aria-current="page" asp-page="/OldMember">Find my name!</a>
+        <a class="btn btn-primary" id="new-member-btn" aria-current="page" asp-page="/NewMember">I'm new here!</a>
     </div>
 </section>

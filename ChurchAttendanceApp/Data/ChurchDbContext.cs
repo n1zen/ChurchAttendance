@@ -16,8 +16,8 @@ public class ChurchDbContext : DbContext
         modelBuilder.Entity<Member>(entity =>
         {
             entity.HasIndex(m => m.MemberId).IsUnique();
-            entity.HasIndex(m => m.Name).IsUnique();
             
+            // for conversion since sqlite cannot use DateOnly format normally
             entity.Property(e => e.Birthday).HasConversion<string>();
             entity.Property(e => e.DateBaptized).HasConversion<string>();
             entity.Property(e => e.AttendanceDate).HasConversion<string>();

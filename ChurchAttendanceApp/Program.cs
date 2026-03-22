@@ -29,9 +29,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// localhost:5090/dashboard -> redirect -> localhost:5090/home
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+
+// localhost:5090/home (home page) -> localhost:5090/members (members page)
 app.UseRouting();
+
+// security 
+// authentication login and registration
+app.UseAuthentication();
+// authorization permissions rules
 app.UseAuthorization();
 
 app.MapRazorPages();
