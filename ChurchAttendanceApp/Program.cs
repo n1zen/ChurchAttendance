@@ -3,9 +3,10 @@ using ChurchAttendanceApp.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var dbPath = Path.Combine("D:\\home\\data", "church.db");
 
 builder.Services.AddDbContext<ChurchDbContext>(options =>
-    options.UseSqlite("Data Source=church.db"));
+    options.UseSqlite($"Data Source={dbPath}"));
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -45,5 +46,11 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ChurchDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
