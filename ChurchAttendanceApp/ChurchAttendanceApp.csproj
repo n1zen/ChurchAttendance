@@ -10,7 +10,6 @@
     <Folder Include="Controllers\" />
     <Folder Include="Converters\" />
     <Folder Include="Data\" />
-    <Folder Include="Pages\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

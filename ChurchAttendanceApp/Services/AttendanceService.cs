@@ -17,7 +17,10 @@ public class AttendanceService
         _context.AttendanceRecords.Find(id);
 
     public List<AttendanceRecord> GetByMember(int memberId) =>
-        _context.AttendanceRecords.Where(a => a.MemberId == memberId).ToList();
+        _context.AttendanceRecords
+            .OrderByDescending(a => a.AttendanceDate)
+            .Where(a => a.MemberId == memberId)
+            .ToList();
 
     public void Add(AttendanceRecord attendanceRecord)
     {
