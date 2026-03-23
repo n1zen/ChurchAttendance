@@ -23,6 +23,11 @@ public class MemberService
             .Include(m => m.AttendanceRecords)
             .FirstOrDefault(m => m.Id == id);
     
+    public Member? GetByMemberId(string memberId) =>
+        _context.Members
+            .Include(m => m.AttendanceRecords)
+            .FirstOrDefault(m => m.MemberId == memberId);
+    
     public void Add(Member member)
     {
         try

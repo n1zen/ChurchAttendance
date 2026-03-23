@@ -1,6 +1,5 @@
 using ChurchAttendanceApp.Models;
 using ChurchAttendanceApp.Data;
-using Microsoft.EntityFrameworkCore;
 
 public class AttendanceService
 {
@@ -47,5 +46,11 @@ public class AttendanceService
             _context.AttendanceRecords.Remove(attendanceRecord);
             _context.SaveChanges();
         }
+    }
+
+    // for checking if member is already attending
+    public bool ExistsForToday(int memberId, DateOnly date)
+    {
+        return _context.AttendanceRecords.Any(a => a.MemberId == memberId && a.AttendanceDate == date);
     }
 }
