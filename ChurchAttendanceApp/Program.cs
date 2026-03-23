@@ -3,10 +3,15 @@ using ChurchAttendanceApp.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure the database connection string for SQLite (for Azure App Service, use the following path)
 var dbPath = Path.Combine("D:\\home\\data", "church.db");
 
+// only for local development
+// var dbPath = "church.db";
+
 builder.Services.AddDbContext<ChurchDbContext>(options =>
-    options.UseSqlite($"Data Source={dbPath}"));
+    options.UseSqlite($"Data Source={dbPath}"));    
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -47,6 +52,9 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 
+
+// use for Azure App Service
+// Apply pending migrations and create the database if it doesn't exist
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ChurchDbContext>();
