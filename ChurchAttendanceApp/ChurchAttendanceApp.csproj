@@ -12,7 +12,6 @@
     <Folder Include="Data\" />
     <Folder Include="Pages\" />
     <Folder Include="Services\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
