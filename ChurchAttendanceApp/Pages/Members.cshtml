@@ -2,44 +2,56 @@
 @model ChurchAttendanceApp.Pages.MembersModel
 @{ ViewData["Title"] = "Member List"; }
 <section class="card m-2 text-bg-light border-success border-3 w-100">
-    <div class="card-header px-5 py-3" style="background: #20c997">
+    <div class="card-header px-5 pt-3 py-1" style="background: #20c997">
         <h2 class="card-title text-center">List of Members</h2>
+        <p class="text-white text-center">Date: @Model.dateToday</p>
     </div>
     <div class="card-body pb-3">
         @if(!Model.Members.Any()) {
-            <h5 class="text-danger text-center">No members registered yet.</h5>
+            <div class="d-flex flex-column justify-content-center align-items-center gap-2">
+                <h5 class="text-danger text-center">No members registered yet.</h5>
+                <a class="btn btn-primary" asp-page="/NewMember">Register a member</a>
+            </div>
         } else {
             <div class="table-responsive">
                 <table class="table table-hover table-striped align-middle">
                     <thead>
+                        <tr>
+                            <th class="text-end" colspan="6">
+                                <a class="btn btn-primary" asp-page="/NewMember">Register a Member</a>
+                            </th>
+                        </tr>
                         <tr class="text-center">
                             <th class="text-nowrap">Member ID</th>
                             <th class="text-nowrap">Name</th>
-                            <th class="text-nowrap">Gender</th>
-                            <th class="text-nowrap">Date Baptized</th>
-                            <th class="text-nowrap">Email</th>
-                            <th class="text-nowrap">Phone</th>
                             <th class="text-nowrap">Membership Status</th>
+                            <th class="text-wrap">Attendance Status</th>
                             <th class="text-nowrap">Date Registered</th>
+                            <th class="text-nowrap">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach(var member in Model.Members) {
                             <tr class="text-center">
-                                <td class="text-nowrap">@member.MemberId</td>
+                                <td class="text-nowrap fw-semibold">@member.MemberId</td>
                                 <td class="text-nowrap">@member.Name</td>
-                                <td class="text-nowrap">@member.Gender</td>
-                                <td class="text-nowrap">
-                                    @if(member.DateBaptized != null){ @member.DateBaptized } else { @Model.Unavailable }
-                                </td>
-                                <td class="text-nowrap">
-                                    @if(member.Email != null){ @member.Email } else { @Model.Unavailable }
-                                </td>
-                                <td class="text-nowrap">
-                                    @if(member.Phone != null){ @member.Phone } else { @Model.Unavailable }
-                                </td>
                                 <td class="text-nowrap">@member.MembershipStatus</td>
+                                <td class="text-nowrap">
+                                    @if (Model.CheckAttendance(member))
+                                    {
+                                        <span class="btn btn-success fw-semibold">Present</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-warning fw-semibold" fw-semibold>Absent</span>
+                                    }
+                                </td>
                                 <td class="text-nowrap">@member.DateRegistered</td>
+                                <td class="text-nowrap">
+                                    <a class="btn btn-info fw-semibold" asp-page="/MemberDetail" asp-route-id="@member.Id">
+                                        View
+                                    </a>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -48,3 +60,26 @@
         }
     </div>
 </section>
+<div class="toast-container position-fixed bottom-0 end-0 p-3 w-auto" style="z-index: 9999">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="successToast" class="toast align-items-center text-white bg-info border-0 w-auto"
+             role="alert" data-bs-autohide="true" data-bs-delay="3000">
+            <div class="d-flex">
+                <div class="toast-body fw-semibold d-flex flex-row gap-2 text-nowrap">
+                    <i class="bi bi-check-lg"></i> @TempData["SuccessMessage"]
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto flex-shrink-0" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const successToastEl = document.getElementById('successToast');
+        if (successToastEl) {
+            const successToast = new bootstrap.Toast(successToastEl);
+            successToast.show();
+        }
+    });
+</script>

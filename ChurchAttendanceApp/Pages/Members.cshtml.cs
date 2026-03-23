@@ -8,11 +8,9 @@ namespace ChurchAttendanceApp.Pages
     public class MembersModel : PageModel
     {
         private readonly MemberService _memberService;
-
-        
-        public string Unavailable = "Unavailable";
-
         public List<Member> Members { get; set; } = [];
+
+        public DateOnly dateToday = DateOnly.FromDateTime(DateTime.Today);
 
         public MembersModel(MemberService memberService)
         {
@@ -21,6 +19,14 @@ namespace ChurchAttendanceApp.Pages
         public void OnGet()
         {
             Members = _memberService.GetAll();
+        }
+
+        public bool CheckAttendance(Member member)
+        {
+            if (member.AttendanceDate == dateToday)
+                return true;
+
+            return false;
         }
     }
 }

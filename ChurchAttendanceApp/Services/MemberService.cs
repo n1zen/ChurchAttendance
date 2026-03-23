@@ -56,27 +56,27 @@ public class MemberService
         var existing = _context.Members.Find(member.Id);
         if (existing == null) return;
 
-        try
-        {
-            existing.MemberId = member.MemberId;
-            existing.Name = member.Name;
-            existing.Gender = member.Gender;
-            existing.Birthday = member.Birthday;
-            existing.DateBaptized = member.DateBaptized;
-            existing.Address = member.Address;
-            existing.Email = member.Email;
-            existing.Phone = member.Phone;
-            existing.MembershipStatus = member.MembershipStatus;
-            existing.AttendanceDate = member.AttendanceDate;
-            existing.DateRegistered = member.DateRegistered;
+        // Pre-check for duplicate MemberId on a different record
+        var duplicate = _context.Members
+            .AsNoTracking()
+            .FirstOrDefault(m => m.MemberId == member.MemberId && m.Id != member.Id);
 
-            _context.SaveChanges();
-        }
-        catch (DbUpdateException)
-        {
+        if (duplicate != null)
             throw new InvalidOperationException("A member already exists with the same Name and/or MemberId");
-        }
 
+        existing.MemberId = string.IsNullOrWhiteSpace(member.MemberId) ? existing.MemberId : member.MemberId;
+        existing.Name = member.Name;
+        existing.Gender = member.Gender;
+        existing.Birthday = member.Birthday;
+        existing.DateBaptized = member.DateBaptized;
+        existing.Address = member.Address;
+        existing.Email = member.Email;
+        existing.Phone = member.Phone;
+        existing.MembershipStatus = member.MembershipStatus;
+        existing.AttendanceDate = member.AttendanceDate;
+        existing.DateRegistered = member.DateRegistered;
+
+        _context.SaveChanges();
     }
 
     public void Delete(int id)
