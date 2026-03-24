@@ -24,8 +24,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
 })
 .AddJwtBearer(options =>
 {
@@ -70,15 +70,15 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-
+// localhost:5090/home (home page) -> localhost:5090/members (members page)
+app.UseRouting();
 
 // localhost:5090/dashboard -> redirect -> localhost:5090/home
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
-// localhost:5090/home (home page) -> localhost:5090/members (members page)
-app.UseRouting();
+
 
 // security 
 // authentication login and registration
