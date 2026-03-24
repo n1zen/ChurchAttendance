@@ -102,16 +102,17 @@
                             <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/index" ? "fabac-nav-link--active" : "")"
                                asp-page="/Index">Home</a>
                         </li>
-
                         @inject Microsoft.AspNetCore.Identity.SignInManager<ChurchAttendanceApp.Models.AppUser> SignInManager
-
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/members" ? "fabac-nav-link--active" : "")"
-                                   asp-page="/Members">Members</a>
-                            </li>
-
+                            @inject Microsoft.AspNetCore.Identity.UserManager<ChurchAttendanceApp.Models.AppUser> UserManager
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/members" ? "fabac-nav-link--active" : "")"
+                                       asp-page="/Members">Members</a>
+                                </li>
+                            }
                             <!-- Divider -->
                             <li class="nav-item d-none d-lg-flex align-items-center">
                                 <div style="width: 1px; height: 20px; background: #d1d5db; margin: 0 8px;"></div>

@@ -47,6 +47,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
 // localhost:5090/dashboard -> redirect -> localhost:5090/home
 app.UseHttpsRedirection();
 
@@ -60,6 +62,30 @@ app.UseRouting();
 app.UseAuthentication();
 // authorization permissions rules
 app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roles = ["Admin", "Member"];
+
+    foreach (var role in roles)
+    {
+        if(!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+
+    var adminEmail = app.Services.GetRequiredService<IConfiguration>()["AdminSeed:Email"];
+    var adminPassword = app.Services.GetRequiredService<IConfiguration>()["AdminSeed:Password"];
+
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser == null)
+    {
+        adminUser = new AppUser { UserName = adminEmail, Email = adminEmail };
+        await userManager.CreateAsync(adminUser, adminPassword);
+        await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+}
 
 app.MapRazorPages();
 app.MapControllers();
