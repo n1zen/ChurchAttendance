@@ -1,0 +1,36 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - render-neon-migration
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Test
+        run: dotnet test --no-build --configuration Release
+
+      - name: Run migrations
+        env:
+          DB_CONNECTION: ${{ secrets.NEON_CONNECTION_STRING }}
+        run: |
+          dotnet tool install --global dotnet -ef
+          dotnet ef database update --connection "$DB_CONNECTION"
+
+      - name: Trigger Render Deploy
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
