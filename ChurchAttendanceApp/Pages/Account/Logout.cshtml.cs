@@ -17,6 +17,7 @@ public class LogoutModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         await _signInManager.SignOutAsync();
+        TempData["ErrorMessage"] = "User logged out.";
         return RedirectToPage("/Index");
     }
 }

@@ -7,108 +7,232 @@
     <link rel="icon" type="image/svg+xml" href="~/images/logos/logo-circle--white.svg" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="~/css/site.css">
-</head>
+    <style>
+        :root {
+            /* Brand */
+            --color-primary: #20c997;
+            --color-primary-dark: #17a589;
+            --color-primary-light: #d9f2ea;
+
+            /* Backgrounds */
+            --color-bg-page: #f7f2e9;
+            --color-bg-surface: #ffffff;
+            --color-bg-muted: #f5f3ef;
+            --color-bg-subtle: #edecea;
+
+            /* Borders */
+            --color-border: #e8e5e1;
+            --color-border-strong: #d1cdc8;
+
+            /* Text */
+            --color-text-primary: #111111;
+            --color-text-secondary: #4b5563;
+            --color-text-muted: #9ca3af;
+        }
+        body {
+            background: var(--color-bg-page);
+        }
+        nav {
+            background: var(--color-bg-surface);
+            border-bottom: 1px solid var(--color-primary-dark);
+        }
+        .fabac-nav-link {
+            color: var(--color-text-secondary);
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .fabac-nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .fabac-nav-link--active {
+            color: var(--color-primary) !important;
+            font-weight: 600 !important;
+        }
+
+        .fabac-nav-link--active::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-bg-surface);
+            border-top: 1px solid var(--color-primary-dark);
+        }
+    </style>
+    </head>
     <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg" style="background: #20c997">
-        <div class="container-fluid px-3 px-md-5">
-            <!-- Change the name to whatever the name of the church -->
-            <a asp-page="/Index" class="navbar-brand fw-bold text-wrap d-flex align-items-center gap-2">
-                <img src="~/images/logos/logo.svg" alt="SDA Logo" height="40" />
-                <span class="d-none d-lg-inline">Fort Andres Bonifacio Adventist Church</span>
-                <span class="d-lg-none">FABAC</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" asp-page="/Index">Home</a>
-                    </li>
-                    @inject Microsoft.AspNetCore.Identity.SignInManager<ChurchAttendanceApp.Models.AppUser> SignInManager
-                    @if (SignInManager.IsSignedIn(User))
-                    {
+        @{
+            var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? "";
+        }
+
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid px-3 px-md-5">
+                <!-- Brand -->
+                <a asp-page="/Index" class="navbar-brand fw-bold d-flex align-items-center gap-2 py-2">
+                    <img src="~/images/logos/logo.svg" alt="SDA Logo" height="36" />
+                    <div class="d-flex flex-column lh-sm">
+                        <span class="fw-bold" style="font-size: 0.95rem; color: #111; letter-spacing: 0.01em;">
+                            <span class="d-none d-lg-inline">Fort Andres Bonifacio Adventist Church</span>
+                            <span class="d-lg-none">FABAC</span>
+                        </span>
+                        <span class="d-none d-lg-inline" style="font-size: 0.68rem; color: #6b7280; letter-spacing: 0.08em; text-transform: uppercase;">Seventh-day Adventist</span>
+                    </div>
+                </a>
+
+                <!-- Toggler -->
+                <button class="navbar-toggler border-0 shadow-none" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Nav Items -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" asp-page="/Members">Members</a>
+                            <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/index" ? "fabac-nav-link--active" : "")"
+                               asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-link">
-                            <span class="text-muted">@User.Identity!.Name</span>
-                            <form method="post" asp-page="/Account/Logout" class="d-inline">
-                                <button type="submit" class="btn btn-link nav-link">Log Out</button>
-                            </form>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Account/Login">Log In</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Account/SignUp">Sign Up</a>
-                        </li>
-                    }
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <main class="d-flex flex-column justify-content-center align-items-center mt-5 px-3 flex-grow-1 pb-5">
-        @RenderBody()
-    </main>
-    <footer style="background: #20c997" class="mt-auto py-3">
-        <div class="container-fluid px-3 px-md-5">
-            <div class="row mb-3">
-                <!-- Change with relevant church information -->
-                <div class="col-12 d-flex flex-column align-items-center justify-content-center">
-                    <img src="~/images/logos/logo.svg" alt="SDA Logo" height="40" />
-                    <h5 class="fw-bold mb-1 text-center text-md-start">
-                        Fort Andres Bonifacio Adventist Church
-                    </h5>
-                    <p class="mb-0 small text-center text-md-start">Seventh-day Adventist Church</p>
+
+                        @inject Microsoft.AspNetCore.Identity.SignInManager<ChurchAttendanceApp.Models.AppUser> SignInManager
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/members" ? "fabac-nav-link--active" : "")"
+                                   asp-page="/Members">Members</a>
+                            </li>
+
+                            <!-- Divider -->
+                            <li class="nav-item d-none d-lg-flex align-items-center">
+                                <div style="width: 1px; height: 20px; background: #d1d5db; margin: 0 8px;"></div>
+                            </li>
+
+                            <!-- User chip -->
+                            <li class="nav-item d-flex align-items-center gap-2 px-3 py-1 rounded-pill"
+                                style="background: #f3f4f6; border: 1px solid #e5e7eb;">
+                                <i class="bi bi-person-circle" style="font-size: 1rem; color: #374151;"></i>
+                                <span class="fw-medium small text-truncate" style="max-width: 140px; color: #374151;">
+                                    @User.Identity!.Name
+                                </span>
+                            </li>
+
+                            <!-- Log Out button -->
+                            <li class="nav-item">
+                                <form method="post" asp-page="/Account/Logout" class="m-0">
+                                    <button type="submit" class="btn btn-sm fw-semibold px-4 py-2"
+                                            style="background: #20c997; color: #fff; border: none; border-radius: 8px; transition: background 0.2s;"
+                                            onmouseover="this.style.background='#17a589'"
+                                            onmouseout="this.style.background='#20c997'">
+                                        Log Out
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <!-- Divider -->
+                            <li class="nav-item d-none d-lg-flex align-items-center">
+                                <div style="width: 1px; height: 20px; background: #d1d5db; margin: 0 8px;"></div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/account/login" ? "fabac-nav-link--active" : "")"
+                                   asp-page="/Account/Login">Log In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn fw-semibold px-4 py-2"
+                                   style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s;"
+                                   onmouseover="this.style.background='#17a589'"
+                                   onmouseout="this.style.background='#20c997'"
+                                   asp-page="/Account/SignUp">Sign Up</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
-            <hr class="my-3 border-dark" />
-            <div class="row gy-3 d-flex">
-                <!-- Change with relevant church contacts -->
-                <div class="col-12 col-md-6">
-                    <h6 class="fw-bold-mb-1 text-center text-md-start">Contact the Church</h6>
-                    <p class="mb-0 small text-center text-md-start">
-                        <i class="bi bi-envelope-at-fill" style="font-size: 1rem;"></i>
-                        fortbonifaciochurch@gmail.com
-                    </p>
-                        <p class="mb-0 small text-center text-md-start">
-                            <i class="bi bi-telephone-fill" style="font-size: 1rem;"></i>
-                        +639543792512
-                    </p>
-                        <p class="mb-0 small text-center text-md-start">
-                            <i class="bi bi-pin-map-fill" style="font-size: 1rem;"></i>
-                        Cattleya St. corner Sampaguita Extn Zone 15 1217, Taguig, Metro Manila
-                    </p>
+        </nav>
+
+        <main class="d-flex flex-column justify-content-center align-items-center mt-5 px-3 flex-grow-1 pb-5">
+            @RenderBody()
+        </main>
+
+        <footer class="mt-auto py-4">
+            <div class="container-fluid px-3 px-md-5">
+                <div class="row mb-4 align-items-center">
+                    <div class="col-12 d-flex flex-column align-items-center justify-content-center gap-1">
+                        <img src="~/images/logos/logo.svg" alt="SDA Logo" height="40" />
+                        <h5 class="fw-bold mb-0 text-center" style="color: #111;">
+                            Fort Andres Bonifacio Adventist Church
+                        </h5>
+                        <p class="mb-0 small text-center" style="color: #6b7280; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.68rem;">
+                            Seventh-day Adventist Church
+                        </p>
+                    </div>
                 </div>
-                <!-- My own information (Louie Izen B. Torres) -->
-                <div class="col-12 col-md-6">
-                    <h6 class="fw-bold mb-1 text-center text-md-end">Developer</h6>
-                    <p class="mb-0 small text-center text-md-end">Built by Louie Izen B. Torres</p>
-                    <p class="mb-0 small text-center text-md-end">
-                        <i class="bi bi-envelope-at-fill" style="font-size: 1rem;"></i>
-                        torresizen070204@gmail.com
-                    </p>
-                    <p class="mb-0 small text-center text-md-end">
-                        <i class="bi bi-github" style="font-size: 1rem;"></i>
-                        <a href="https://github.com/n1zen" class="text-dark text-decoration-none">Github</a>
-                    </p>
+
+                <hr class="my-3" style="border-color: #e5e7eb;" />
+
+                <div class="row gy-3">
+                    <div class="col-12 col-md-6">
+                        <h6 class="fw-bold mb-2 text-center text-md-start" style="color: #111;">Contact the Church</h6>
+                        <div class="d-flex flex-column gap-1 align-items-center align-items-md-start">
+                            <p class="mb-0 small d-flex align-items-center gap-2" style="color: #374151;">
+                                <i class="bi bi-envelope-at-fill" style="color: #20c997;"></i>
+                                fortbonifaciochurch@gmail.com
+                            </p>
+                            <p class="mb-0 small d-flex align-items-center gap-2" style="color: #374151;">
+                                <i class="bi bi-telephone-fill" style="color: #20c997;"></i>
+                                +639543792512
+                            </p>
+                            <p class="mb-0 small d-flex align-items-center gap-2" style="color: #374151;">
+                                <i class="bi bi-pin-map-fill" style="color: #20c997;"></i>
+                                Cattleya St. corner Sampaguita Extn Zone 15 1217, Taguig, Metro Manila
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <h6 class="fw-bold mb-2 text-center text-md-end" style="color: #111;">Developer</h6>
+                        <div class="d-flex flex-column gap-1 align-items-center align-items-md-end">
+                            <p class="mb-0 small" style="color: #374151;">Built by Louie Izen B. Torres</p>
+                            <p class="mb-0 small d-flex align-items-center gap-2" style="color: #374151;">
+                                <i class="bi bi-envelope-at-fill" style="color: #20c997;"></i>
+                                torresizen070204@gmail.com
+                            </p>
+                            <p class="mb-0 small d-flex align-items-center gap-2" style="color: #374151;">
+                                <i class="bi bi-github" style="color: #20c997;"></i>
+                                <a href="https://github.com/n1zen"
+                                   style="color: #20c997; text-decoration: none;"
+                                   onmouseover="this.style.textDecoration='underline'"
+                                   onmouseout="this.style.textDecoration='none'">Github</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
+
+                <hr class="my-3" style="border-color: #e5e7eb;" />
+
+                <p class="text-center mb-0 small" style="color: #9ca3af;">
+                    &copy; @DateTime.Now.Year
+                    <span class="d-none d-lg-inline">Fort Andres Bonifacio Adventist Church</span>
+                    <span class="d-lg-none">FABAC</span>. All rights reserved.
+                </p>
             </div>
-            <hr class="my-3 border-dark" />
-            <!-- Copyright -->
-            <p class="text-center text-wrap small mb-0">
-                &copy; @DateTime.Now.Year <span class="d-none d-lg-inline">Fort Andres Bonifacio Adventist Church</span><span class="d-lg-none">FABAC</span>. All rights reserved.
-            </p>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
 </html>

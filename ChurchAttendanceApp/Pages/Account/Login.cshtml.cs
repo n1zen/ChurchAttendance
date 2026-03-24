@@ -49,16 +49,19 @@ public class LoginModel : PageModel
             Input.Email,
             Input.Password,
             Input.RememberMe,
-            lockoutOnFailure: true); // locks account after 5 failed attempts
+            lockoutOnFailure: false); 
 
         if (result.Succeeded)
-            return LocalRedirect(returnUrl);
-
-        if (result.IsLockedOut)
         {
-            ModelState.AddModelError(string.Empty, "Account locked. Try again later.");
-            return Page();
+            TempData["SuccessMessage"] = "Login successful!";
+            return LocalRedirect(returnUrl);
         }
+
+        //if (result.IsLockedOut)
+        //{
+        //    ModelState.AddModelError(string.Empty, "Account locked. Try again later.");
+        //    return Page();
+        //}
 
         ModelState.AddModelError(string.Empty, "Invalid email or password.");
         return Page();
