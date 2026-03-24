@@ -49,8 +49,8 @@ namespace ChurchAttendanceApp.Pages
 
             if (alreadyAttended)
             {
-                ModelState.AddModelError(string.Empty, "You have already logged your attendance.");
-                return Page();
+                TempData["ErrorMessage"] = $"{member.MemberId} | {member.Name} is already present.";
+                return RedirectToPage("/OldMember");
             }
 
             // add the record
@@ -58,7 +58,9 @@ namespace ChurchAttendanceApp.Pages
             {
                 MemberId = member.Id
             };
-            
+
+
+            TempData["SuccessMessage"] = $"Attendance recorded for {member.Name}";
             _attendanceService.Add(attendanceRecord);
             return RedirectToPage("/Index");
         }
