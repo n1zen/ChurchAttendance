@@ -31,3 +31,26 @@
         <a class="btn btn-primary" id="new-member-btn" aria-current="page" asp-page="/NewMember">I'm new here!</a>
     </div>
 </section>
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="successToast" class="toast align-items-center text-white bg-info border-0 w-auto"
+             role="alert" data-bs-autohide="true" data-bs-delay="3000">
+            <div class="d-flex">
+                <div class="toast-body fw-semibold d-flex flex-row gap-2 text-nowrap">
+                    <i class="bi bi-check-lg"></i> @TempData["SuccessMessage"]
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto flex-shrink-0" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const successToastEl = document.getElementById('successToast');
+        if (successToastEl) {
+            const successToast = new bootstrap.Toast(successToastEl);
+            successToast.show();
+        }
+    });
+</script>
