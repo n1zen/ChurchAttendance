@@ -4,11 +4,11 @@
     ViewData["Title"] = Model.Member?.Name?? "Member Detail"; 
 }
 <section class="card m-2 text-bg-light border-success border-3 w-100" style="max-width: 1000px">
-    <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
-        <h3 class="card-title mb-1 pb-0 fw-bolder">@Model.Member.Name</h3>
-        <p class="card-subtitle mb-0 pb-0 fw-semibold">@Model.Member.MemberId</p>
+    <div class="card-header d-flex flex-column justify-content-center align-items-center px-3 px-md-5 py-3" style="background: #20c997">
+        <h3 class="card-title mb-1 pb-0 fw-bolder text-center">@Model.Member.Name</h3>
+        <p class="card-subtitle mb-0 pb-0 fw-semibold text-center">@Model.Member.MemberId</p>
     </div>
-    <div class="card-body d-flex d-row">
+    <div class="card-body d-flex flex-column flex-lg-row gap-3">
         <div class="card text-bg-light border-success border-3 w-100">
             <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
                 <h5 class="card-title mb-1 pb-0 fw-semibold">Member Details</h5>
@@ -66,7 +66,7 @@
                 </form>
             </div>
         </div>
-        <div class="container-fluid w-100">
+        <div class="container-fluid w-100 px-0">
             <div class="card table-responsive border border-success border-3 rounded">
                 <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
                     <h5 class="card-title mb-1 pb-0 text-center">Attendance Records</h5>
