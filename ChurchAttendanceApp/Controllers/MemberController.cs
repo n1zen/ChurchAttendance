@@ -1,11 +1,14 @@
 using ChurchAttendanceApp.Models;
 using ChurchAttendanceApp.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChurchAttendanceApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class MemberController : ControllerBase
 {
     private readonly MemberService _memberService;
@@ -31,6 +34,7 @@ public class MemberController : ControllerBase
         return member;
     }
 
+    [Authorize(Roles = "Admin")]
     // Create a new member
     [HttpPost]
     public IActionResult Create(Member member)
@@ -46,6 +50,7 @@ public class MemberController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     // Update a member
     [HttpPut("{id}")]
     public IActionResult Update(int id, [FromBody] Member member)
@@ -68,6 +73,7 @@ public class MemberController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     // Delete a member
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
