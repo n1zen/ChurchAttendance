@@ -4,14 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure the database connection string for SQLite (for Azure App Service, use the following path)
-var dbPath = Path.Combine("D:\\home\\data", "church.db");
-
-// only for local development
-// var dbPath = "church.db";
-
 builder.Services.AddDbContext<ChurchDbContext>(options =>
-    options.UseSqlite($"Data Source={dbPath}"));    
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));  
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
