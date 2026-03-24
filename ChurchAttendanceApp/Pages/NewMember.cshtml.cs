@@ -43,6 +43,7 @@ namespace ChurchAttendanceApp.Pages
             };
             
             _memberService.Add(member);
+            TempData["SuccessMessage"] = $"{member.Name} has been registered successfully.";
 
             return RedirectToPage("/Index");
         }

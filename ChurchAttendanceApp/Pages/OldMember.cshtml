@@ -7,15 +7,6 @@
     </div>
     <div class="card-body">
         <form novalidate asp-page="/OldMember" method="post">
-            @if (!ViewData.ModelState.IsValid)
-            {
-                foreach (var error in ViewData.ModelState[string.Empty]?.Errors ?? Enumerable.Empty<Microsoft.AspNetCore.Mvc.ModelBinding.ModelError>())
-                {
-                    <div class="alert alert-danger" role="alert">
-                        @error.ErrorMessage
-                    </div>
-                }
-            }
             <div class="mb-3">
                 <label for="memberSearch" class="form-label">Find your name or ID</label>
                 <input type="text" class="form-control" id="memberSearch"
@@ -39,7 +30,28 @@
         </form>
     </div>
 </div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0 w-auto"
+             role="alert" data-bs-autohide="true" data-bs-delay="3000">
+             <div class="d-flex">
+                <div class="toast-body fw-semibold d-flex flex-row gap-2 align-items-center text-nowrap">
+                    <i class="bi bi-exclamation-octagon-fill" style="font-size: 1.2rem;"></i> @TempData["ErrorMessage"]
+                 </div>
+                 <button type="button" class="btn-close btn-close-white me-2 m-auto flex-shirnk-0" data-bs-dismiss="toast"></button>
+             </div>
+        </div>
+    }
+</div>
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const errorToastEl = document.getElementById('errorToast');
+        if (errorToastEl) {
+            const errorToast = new bootstrap.Toast(errorToastEl);
+            errorToast.show();
+        }
+    });
     const searchInput = document.getElementById('memberSearch');
     const datalist = document.getElementById('memberList');
     const hiddenInput = document.getElementById('selectedMemberId');
