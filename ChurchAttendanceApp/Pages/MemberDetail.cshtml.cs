@@ -77,7 +77,7 @@ namespace ChurchAttendanceApp.Pages
                 // ... copy only editable props, do NOT overwrite MemberId unless present
                 _memberService.Update(db);
                 TempData["SuccessMessage"] = $"{Member.Name} has been updated successfully.";
-                return RedirectToPage("/MemberDetail", new { id = Member.Id });
+                return RedirectToPage("/Members");
             }
             catch (InvalidOperationException ex)
             {

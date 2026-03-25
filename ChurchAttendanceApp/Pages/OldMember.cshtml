@@ -5,27 +5,22 @@
 }
 
 <div class="d-flex flex-column w-100" style="max-width: 600px">
-    <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start"
-            style="background: transparent; color: #20c997; border: 2px solid #20c997; border-radius: 8px; transition: all 0.2s;"
-            onmouseover="this.style.background='#20c997'; this.style.color='#fff'"
-            onmouseout="this.style.background='transparent'; this.style.color='#20c997'"
-            onclick="history.back()">
+    <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start outline-primary-btn" onclick="history.back()">
         <i class="bi bi-arrow-left me-2"></i>Back
     </button>
 
-    <div class="card border-0 shadow-sm w-100" style="border-radius: 12px; overflow: hidden;">
-        <div class="px-4 py-4 text-center" style="background: #20c997;">
-            <h3 class="fw-bold mb-0" style="color: #fff;">Attendance</h3>
+    <div class="card border-0 shadow-sm w-100 card-rounded">
+        <div class="px-4 py-4 text-center card-header-primary">
+            <h3 class="fw-bold mb-0">Attendance</h3>
         </div>
         <div class="card-body px-4 py-4" style="background: #fff;">
             <form novalidate asp-page="/OldMember" method="post">
                 <div class="mb-3">
                     <label for="memberSearch" class="form-label fw-semibold" style="color: #374151;">Find your name or ID</label>
-                    <input type="text" class="form-control" id="memberSearch"
+                    <input type="text" class="form-control input-border" id="memberSearch"
                            placeholder="Type your name or ID"
                            list="memberList"
-                           autocomplete="off"
-                           style="border-color: #d1d5db;" />
+                           autocomplete="off" />
                     <datalist id="memberList">
                         @foreach (var member in Model.Members)
                         {
@@ -38,12 +33,7 @@
                     <input asp-for="SelectedMemberId" type="hidden" id="selectedMemberId" name="SelectedMemberId" />
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn fw-semibold py-2"
-                            style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s; border: none;"
-                            onmouseover="this.style.background='#17a589'"
-                            onmouseout="this.style.background='#20c997'">
-                        Confirm
-                    </button>
+                    <button type="submit" class="btn fw-semibold py-2 btn-fabac">Confirm</button>
                 </div>
             </form>
         </div>

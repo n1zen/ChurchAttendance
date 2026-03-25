@@ -4,25 +4,24 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="d-flex flex-column align-items-center gap-4 w-100" style="max-width: 600px">
+<div class="d-flex flex-column align-items-center gap-4 w-100 max-w-600">
 
     <!-- Welcome Card -->
-    <div class="card border-0 shadow-sm w-100" style="border-radius: 12px; overflow: hidden;">
-        <div class="px-4 py-4 text-center" style="background: #20c997;">
-            <h1 class="fw-bold mb-1" style="color: #fff; font-size: 1.8rem;">Welcome! Happy Sabbath!</h1>
-            <p class="mb-0 small fw-medium" style="color: rgba(255,255,255,0.85);">
+    <div class="card border-0 shadow-sm w-100 card-rounded">
+        <div class="px-4 py-4 text-center card-header-primary">
+            <h1 class="fw-bold mb-1" style="font-size: 1.8rem;">Welcome! Happy Sabbath!</h1>
+            <p class="mb-0 small fw-medium header-subtext">
                 Current registered members:
                 <span class="fw-bold">@Model.MemberCount</span>
             </p>
         </div>
-        <div class="card-body d-flex flex-column justify-content-center align-items-center py-4 px-4 gap-2 text-center"
-             style="background: #fff;">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center py-4 px-4 gap-2 text-center">
             @if (Model.DailyVerse != null)
             {
-                <p class="fst-italic mb-1" style="color: #374151; line-height: 1.7;">
+                <p class="fst-italic mb-1 muted-text" style="line-height: 1.7;">
                     " @Model.DailyVerse.Text "
                 </p>
-                <p class="mb-0 fw-semibold small" style="color: #20c997;">
+                <p class="mb-0 fw-semibold small member-id-text">
                     — @Model.DailyVerse.BookName @Model.DailyVerse.Chapter:@Model.DailyVerse.Verse
                 </p>
             }
@@ -30,25 +29,16 @@
     </div>
 
     <!-- Attendance Card -->
-    <div class="card border-0 shadow-sm w-100" style="border-radius: 12px; overflow: hidden;">
-        <div class="px-4 py-3 text-center" style="background: #20c997;">
-            <h3 class="fw-bold mb-1" style="color: #fff;">Church Attendance</h3>
-            <p class="mb-0 small fw-medium" style="color: rgba(255,255,255,0.85);">Select your option</p>
+    <div class="card border-0 shadow-sm w-100 card-rounded">
+        <div class="px-4 py-3 text-center card-header-primary">
+            <h3 class="fw-bold mb-1">Church Attendance</h3>
+            <p class="mb-0 small fw-medium header-subtext">Select your option</p>
         </div>
-        <div class="card-body d-flex flex-column flex-sm-row justify-content-around align-items-center gap-3 py-4"
-             style="background: #fff;">
-            <a class="btn fw-semibold px-4 py-2 w-100 w-sm-auto"
-                   style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s; max-width: 200px;"
-                   onmouseover="this.style.background='#17a589'"
-                   onmouseout="this.style.background='#20c997'"
-                   asp-page="/OldMember">
+        <div class="card-body d-flex flex-column flex-sm-row justify-content-around align-items-center gap-3 py-4">
+            <a class="btn fw-semibold px-4 py-2 w-100 w-sm-auto btn-fabac" style="max-width: 200px;" asp-page="/OldMember">
                 <i class="bi bi-person-check me-2"></i>Find my name!
             </a>
-            <a class="btn fw-semibold px-4 py-2 w-100 w-sm-auto"
-                   style="background: transparent; color: #20c997; border: 2px solid #20c997; border-radius: 8px; transition: all 0.2s; max-width: 200px;"
-                   onmouseover="this.style.background='#20c997'; this.style.color='#fff'"
-                   onmouseout="this.style.background='transparent'; this.style.color='#20c997'"
-                   asp-page="/NewMember">
+            <a class="btn fw-semibold px-4 py-2 w-100 w-sm-auto outline-primary-btn" style="max-width: 200px;" asp-page="/NewMember">
                 <i class="bi bi-person-plus me-2"></i>I'm new here!
             </a>
         </div>

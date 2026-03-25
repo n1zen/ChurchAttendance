@@ -4,52 +4,38 @@
     ViewData["Title"] = "Log In";
 }
 
-<button class="btn fw-semibold px-3 py-2 mb-4 align-self-start"
-        style="background: transparent; color: #20c997; border: 2px solid #20c997; border-radius: 8px; transition: all 0.2s;"
-        onmouseover="this.style.background='#20c997'; this.style.color='#fff'"
-        onmouseout="this.style.background='transparent'; this.style.color='#20c997'"
+<button class="btn fw-semibold px-3 py-2 mb-4 align-self-start outline-primary-btn"
         onclick="history.back()">
     <i class="bi bi-arrow-left me-2"></i>Back
 </button>
 
 <div class="card border-0 shadow-sm w-100" style="max-width: 450px; border-radius: 12px; overflow: hidden;">
-    <div class="px-4 py-4 text-center" style="background: #20c997;">
-        <h3 class="fw-bold mb-1" style="color: #fff;">Log In</h3>
-        <p class="mb-0 small fw-medium" style="color: rgba(255,255,255,0.85);">Fort Andres Bonifacio Adventist Church</p>
+    <div class="px-4 py-4 text-center card-header-primary">
+        <h3 class="fw-bold mb-1">Admin Log In</h3>
+        <p class="mb-0 small fw-medium header-subtext">Fort Andres Bonifacio Adventist Church</p>
     </div>
     <div class="card-body px-4 py-4" style="background: #fff;">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <div class="mb-3">
-                <label asp-for="Input.Email" class="form-label fw-semibold" style="color: #374151;"></label>
-                <input asp-for="Input.Email" class="form-control" placeholder="email@example.com"
-                       style="border-color: #d1d5db;" />
+                <label asp-for="Input.Email" class="form-label fw-semibold muted-text"></label>
+                <input asp-for="Input.Email" class="form-control input-border" placeholder="email@example.com" />
                 <span asp-validation-for="Input.Email" class="text-danger small"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Input.Password" class="form-label fw-semibold" style="color: #374151;"></label>
-                <input asp-for="Input.Password" class="form-control" placeholder="Enter your password"
-                       style="border-color: #d1d5db;" />
+                <label asp-for="Input.Password" class="form-label fw-semibold muted-text"></label>
+                <input asp-for="Input.Password" class="form-control input-border" placeholder="Enter your password" />
                 <span asp-validation-for="Input.Password" class="text-danger small"></span>
             </div>
             <div class="mb-3 form-check">
                 <input asp-for="Input.RememberMe" class="form-check-input" />
-                <label asp-for="Input.RememberMe" class="form-check-label" style="color: #374151;"></label>
+                <label asp-for="Input.RememberMe" class="form-check-label muted-text"></label>
             </div>
             <div class="d-grid">
-                <button type="submit" class="btn fw-semibold py-2"
-                        style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s; border: none;"
-                        onmouseover="this.style.background='#17a589'"
-                        onmouseout="this.style.background='#20c997'">
+                <button type="submit" class="btn fw-semibold py-2 btn-fabac">
                     Log In
                 </button>
             </div>
         </form>
-        <p class="mt-3 text-center mb-0 small" style="color: #6b7280;">
-            Don't have an account?
-            <a asp-page="/Account/SignUp" class="fw-semibold" style="color: #20c997; text-decoration: none;"
-               onmouseover="this.style.textDecoration='underline'"
-               onmouseout="this.style.textDecoration='none'">Sign up</a>
-        </p>
     </div>
 </div>
