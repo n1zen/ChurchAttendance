@@ -1,109 +1,159 @@
 ﻿@page "{id:int}"
 @model ChurchAttendanceApp.Pages.MemberDetailModel
 @{
-    ViewData["Title"] = Model.Member?.Name?? "Member Detail"; 
+    ViewData["Title"] = Model.Member?.Name ?? "Member Detail";
 }
-<section class="card m-2 text-bg-light border-success border-3 w-100" style="max-width: 1000px">
-    <div class="card-header d-flex flex-column justify-content-center align-items-center px-3 px-md-5 py-3" style="background: #20c997">
-        <h3 class="card-title mb-1 pb-0 fw-bolder text-center">@Model.Member.Name</h3>
-        <p class="card-subtitle mb-0 pb-0 fw-semibold text-center">@Model.Member.MemberId</p>
-    </div>
-    <div class="card-body d-flex flex-column flex-lg-row gap-3">
-        <div class="card text-bg-light border-success border-3 w-100">
-            <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
-                <h5 class="card-title mb-1 pb-0 fw-semibold">Member Details</h5>
-            </div>
-            <div class="card-body">
-                <form asp-page="/MemberDetail" asp-route-id="@Model.Member.Id" method="post" id="updateForm">
-                    <input type="hidden" asp-for="Member.Id" />
-                    <input type="hidden" asp-for="Member.MemberId" />
-                    <input type="hidden" asp-for="Member.Name"/>
-                    <div class="mb-3">
-                        <label class="form-label" asp-for="@Model.Member.MembershipStatus">Membership</label>
-                        <input class="form-control" type="text" readonly asp-for="@Model.Member.MembershipStatus" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" asp-for="@Model.Member.Gender">Gender</label>
-                        <input class="form-control" type="text" readonly asp-for="@Model.Member.Gender" />
-                        <select class="form-control" hidden asp-for="@Model.Member.Gender">
-                            <option value="" selected>Choose your gender...</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                            <option value="Prefer not to say">Prefer not to say</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" asp-for="@Model.Member.Birthday">Birthday</label>
-                        <input class="form-control" type="date" readonly asp-for="@Model.Member.Birthday" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" asp-for="@Model.Member.DateBaptized">Date Baptized</label>
-                        <input class="form-control" type="date" readonly asp-for="@Model.Member.DateBaptized" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" asp-for="@Model.Member.Address">Address</label>
-                        <input class="form-control" type="text" readonly asp-for="@Model.Member.Address" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" asp-for="@Model.Member.Email">Email</label>
-                        <input class="form-control" type="text" readonly asp-for="@Model.Member.Email" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" asp-for="@Model.Member.Phone">Phone</label>
-                        <input class="form-control" type="text" readonly asp-for="@Model.Member.Phone" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" asp-for="@Model.Member.DateRegistered">Date Registered</label>
-                        <input class="form-control" type="date" readonly asp-for="@Model.Member.DateRegistered" />
-                    </div>
-                    <div class="d-flex gap-2 align-items-end justify-content-end">
-                        <button id="editBtn" class="btn btn-primary">Edit</button>
-                        <button id="deleteBtn" class="btn btn-danger">Delete</button>
-                        <button id="confirmBtn" type="submit" class="btn btn-success d-none">Confirm</button>
-                        <button id="cancelBtn" class="btn btn-secondary d-none">Cancel</button>
-                    </div>
-                </form>
-            </div>
+
+<div class="w-100" style="max-width: 1000px">
+
+    <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start"
+            style="background: transparent; color: #20c997; border: 2px solid #20c997; border-radius: 8px; transition: all 0.2s;"
+            onmouseover="this.style.background='#20c997'; this.style.color='#fff'"
+            onmouseout="this.style.background='transparent'; this.style.color='#20c997'"
+            onclick="history.back()">
+        <i class="bi bi-arrow-left me-2"></i>Back
+    </button>
+
+    <!-- Main card -->
+    <div class="card border-0 shadow-sm w-100" style="border-radius: 12px; overflow: hidden;">
+        <div class="px-4 py-4 text-center" style="background: #20c997;">
+            <h3 class="fw-bold mb-1" style="color: #fff;">@Model.Member.Name</h3>
+            <p class="mb-0 small fw-medium" style="color: rgba(255,255,255,0.85);">@Model.Member.MemberId</p>
         </div>
-        <div class="container-fluid w-100 px-0">
-            <div class="card table-responsive border border-success border-3 rounded">
-                <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
-                    <h5 class="card-title mb-1 pb-0 text-center">Attendance Records</h5>
+
+        <div class="card-body d-flex flex-column flex-lg-row gap-3 p-3" style="background: #f7f2e9;">
+
+            <!-- Member Details -->
+            <div class="card border-0 shadow-sm w-100" style="border-radius: 10px; overflow: hidden;">
+                <div class="px-4 py-3 text-center" style="background: #20c997;">
+                    <h5 class="fw-semibold mb-0" style="color: #fff;">Member Details</h5>
                 </div>
-                <table class="table table-hover table-striped table-bordered align-middle">
-                    <thead>
-                        <tr>
-                            <td class="fw-semibold text-center" colspan="2">
-                                @if (Model.CheckAttendance(Model.Member))
-                                {
-                                    <span class="btn btn-info fw-semibold">Present</span>
-                                }
-                                else
-                                {
-                                    <span class="btn btn-warning fw-semibold">Absent</span>
-                                }
-                            </td>
-                        </tr>
-                        <tr class="text-nowrap text-center fw-bold">
-                            <td>Id</td>
-                            <td>Date</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var attendanceRecord in Model.AttendanceRecords)
-                        {
-                            <tr class="text-nowrap text-center">
-                                <td>@attendanceRecord.Id</td>
-                                <td>@attendanceRecord.AttendanceDate</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                <div class="card-body px-4 py-3" style="background: #fff;">
+                    <form asp-page="/MemberDetail" asp-route-id="@Model.Member.Id" method="post" id="updateForm">
+                        <input type="hidden" asp-for="Member.Id" />
+                        <input type="hidden" asp-for="Member.MemberId" />
+                        <input type="hidden" asp-for="Member.Name" />
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.MembershipStatus">Membership</label>
+                            <input class="form-control" type="text" readonly asp-for="@Model.Member.MembershipStatus" style="border-color: #d1d5db;" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.Gender">Gender</label>
+                            <input class="form-control" type="text" readonly asp-for="@Model.Member.Gender" style="border-color: #d1d5db;" />
+                            <select class="form-control" hidden asp-for="@Model.Member.Gender" style="border-color: #d1d5db;">
+                                <option value="" selected>Choose your gender...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                                <option value="Prefer not to say">Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.Birthday">Birthday</label>
+                            <input class="form-control" type="date" readonly asp-for="@Model.Member.Birthday" style="border-color: #d1d5db;" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.DateBaptized">Date Baptized</label>
+                            <input class="form-control" type="date" readonly asp-for="@Model.Member.DateBaptized" style="border-color: #d1d5db;" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.Address">Address</label>
+                            <input class="form-control" type="text" readonly asp-for="@Model.Member.Address" style="border-color: #d1d5db;" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.Email">Email</label>
+                            <input class="form-control" type="text" readonly asp-for="@Model.Member.Email" style="border-color: #d1d5db;" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.Phone">Phone</label>
+                            <input class="form-control" type="text" readonly asp-for="@Model.Member.Phone" style="border-color: #d1d5db;" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.DateRegistered">Date Registered</label>
+                            <input class="form-control" type="date" readonly asp-for="@Model.Member.DateRegistered" style="border-color: #d1d5db;" />
+                        </div>
+                        <div class="d-flex gap-2 justify-content-end">
+                            <button id="editBtn" type="button" class="btn fw-semibold px-3"
+                                    style="background: #20c997; color: #fff; border-radius: 8px; border: none; transition: background 0.2s;"
+                                    onmouseover="this.style.background='#17a589'"
+                                    onmouseout="this.style.background='#20c997'">
+                                Edit
+                            </button>
+                            <button id="deleteBtn" type="button" class="btn fw-semibold px-3"
+                                    style="background: #fee2e2; color: #991b1b; border-radius: 8px; border: 1px solid #fca5a5; transition: all 0.2s;"
+                                    onmouseover="this.style.background='#fca5a5'"
+                                    onmouseout="this.style.background='#fee2e2'">
+                                Delete
+                            </button>
+                            <button id="confirmBtn" type="submit" class="btn fw-semibold px-3 d-none"
+                                    style="background: #20c997; color: #fff; border-radius: 8px; border: none; transition: background 0.2s;"
+                                    onmouseover="this.style.background='#17a589'"
+                                    onmouseout="this.style.background='#20c997'">
+                                Confirm
+                            </button>
+                            <button id="cancelBtn" type="button" class="btn fw-semibold px-3 d-none"
+                                    style="background: #f3f4f6; color: #374151; border-radius: 8px; border: 1px solid #d1d5db; transition: all 0.2s;"
+                                    onmouseover="this.style.background='#e5e7eb'"
+                                    onmouseout="this.style.background='#f3f4f6'">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
+
+            <!-- Attendance Records -->
+            <div class="card border-0 shadow-sm w-100" style="border-radius: 10px; overflow: hidden;">
+                <div class="px-4 py-3 d-flex align-items-center justify-content-between"
+                     style="background: #20c997;">
+                    <span class="fw-semibold" style="color: #fff;">
+                        <i class="bi bi-calendar-check me-2"></i>Attendance Records
+                    </span>
+                    @if (Model.CheckAttendance(Model.Member))
+                    {
+                        <span class="badge rounded-pill px-3 py-2 fw-semibold"
+                              style="background: #d1fae5; color: #065f46; font-size: 0.8rem;">
+                            Present Today
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge rounded-pill px-3 py-2 fw-semibold"
+                              style="color: #92400e; background: #fef3c7; font-size: 0.8rem;">
+                            Absent Today
+                        </span>
+                    }
+                </div>
+                <div class="card-body p-0" style="background: #fff;">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr class="text-center" style="background: #f0faf6; color: #374151;">
+                                    <th class="py-3 fw-semibold">Id</th>
+                                    <th class="py-3 fw-semibold">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendanceRecord in Model.AttendanceRecords)
+                                {
+                                    <tr class="text-center" style="border-bottom: 1px solid #f0faf6;">
+                                        <td class="py-3" style="color: #6b7280;">@attendanceRecord.Id</td>
+                                        <td class="py-3 fw-medium" style="color: #374151;">
+                                            @attendanceRecord.AttendanceDate.ToString("MMM dd, yyyy")
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-</section>
+</div>
+
+<!-- Toasts -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3 w-auto" style="z-index: 9999">
     <div id="deleteToast" class="toast w-auto" role="alert" data-bs-autohide="false">
         <div class="toast-header bg-danger text-white">
@@ -134,6 +184,7 @@
         </div>
     }
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const inputs = document.querySelectorAll('#updateForm input:not([type="hidden"])');
@@ -141,10 +192,8 @@
         const deleteBtn = document.getElementById('deleteBtn');
         const confirmBtn = document.getElementById('confirmBtn');
         const cancelBtn = document.getElementById('cancelBtn');
-
         const genderInput = document.querySelector('input[name="Member.Gender"]');
         const genderSelect = document.querySelector('select[name="Member.Gender"]');
-
         const deleteToast = new bootstrap.Toast(document.getElementById('deleteToast'));
 
         const originalValues = {};
@@ -153,14 +202,11 @@
         editBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-
             inputs.forEach(input => input.removeAttribute('readonly'));
-
             genderInput.setAttribute('hidden', true);
             genderInput.setAttribute('disabled', true);
             genderSelect.removeAttribute('hidden');
             genderSelect.value = genderInput.value;
-
             editBtn.classList.add('d-none');
             deleteBtn.classList.add('d-none');
             confirmBtn.classList.remove('d-none');
@@ -169,14 +215,11 @@
 
         cancelBtn.addEventListener('click', function(e) {
             e.preventDefault();
-
             inputs.forEach(input => input.value = originalValues[input.name]);
             inputs.forEach(input => input.setAttribute('readonly', true));
-
             genderInput.removeAttribute('hidden');
             genderInput.removeAttribute('disabled');
             genderSelect.setAttribute('hidden', true);
-
             editBtn.classList.remove('d-none');
             deleteBtn.classList.remove('d-none');
             confirmBtn.classList.add('d-none');

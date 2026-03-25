@@ -1,65 +1,116 @@
 ﻿@page
 @model ChurchAttendanceApp.Pages.MembersModel
-@{ ViewData["Title"] = "Member List"; }
-<section class="card m-2 text-bg-light border-success border-3 w-100">
-    <div class="card-header px-5 pt-3 py-1" style="background: #20c997">
-        <h2 class="card-title text-center">List of Members</h2>
-        <p class="text-white text-center">Date: @Model.dateToday</p>
+@{
+    ViewData["Title"] = "Member List";
+}
+
+<div class="w-100" style="max-width: 1100px">
+    <div class="mb-3 d-flex align-items-center justify-content-between gap-3">
+        <button class="btn fw-semibold px-3 py-2"
+                style="background: transparent; color: #20c997; border: 2px solid #20c997; border-radius: 8px; transition: all 0.2s;"
+                onmouseover="this.style.background='#20c997'; this.style.color='#fff'"
+                onmouseout="this.style.background='transparent'; this.style.color='#20c997'"
+                onclick="history.back()">
+            <i class="bi bi-arrow-left me-2"></i>Back
+        </button>
+        <a class="btn fw-semibold px-4 py-2"
+               style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s; border: none;"
+               onmouseover="this.style.background='#17a589'"
+               onmouseout="this.style.background='#20c997'"
+               asp-page="/NewMember">
+            <i class="bi bi-person-plus me-2"></i>Register a Member
+        </a>
     </div>
-    <div class="card-body pb-3">
-        @if(!Model.Members.Any()) {
-            <div class="d-flex flex-column justify-content-center align-items-center gap-2">
-                <h5 class="text-danger text-center">No members registered yet.</h5>
-                <a class="btn btn-primary" asp-page="/NewMember">Register a member</a>
-            </div>
-        } else {
-            <div class="table-responsive">
-                <table class="table table-hover table-striped align-middle">
-                    <thead>
-                        <tr>
-                            <th class="text-end" colspan="6">
-                                <a class="btn btn-primary" asp-page="/NewMember">Register a Member</a>
-                            </th>
-                        </tr>
-                        <tr class="text-center">
-                            <th class="text-nowrap">Member ID</th>
-                            <th class="text-nowrap">Name</th>
-                            <th class="text-nowrap">Membership Status</th>
-                            <th class="text-wrap">Attendance Status</th>
-                            <th class="text-nowrap">Date Registered</th>
-                            <th class="text-nowrap">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach(var member in Model.Members) {
-                            <tr class="text-center">
-                                <td class="text-nowrap fw-semibold">@member.MemberId</td>
-                                <td class="text-nowrap">@member.Name</td>
-                                <td class="text-nowrap">@member.MembershipStatus</td>
-                                <td class="text-nowrap">
-                                    @if (Model.CheckAttendance(member))
-                                    {
-                                        <span class="btn btn-success fw-semibold">Present</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="btn btn-warning fw-semibold" fw-semibold>Absent</span>
-                                    }
-                                </td>
-                                <td class="text-nowrap">@member.DateRegistered</td>
-                                <td class="text-nowrap">
-                                    <a class="btn btn-info fw-semibold" asp-page="/MemberDetail" asp-route-id="@member.Id">
-                                        View
-                                    </a>
-                                </td>
+
+    <div class="mb-3">
+        <h2 class="fw-bold mb-0" style="color: #111;">List of Members</h2>
+        <p class="mb-0 small" style="color: #6b7280;">
+            Date: <span class="fw-semibold" style="color: #20c997;">@Model.dateToday</span>
+        </p>
+    </div>
+
+    <div class="card border-0 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+        <div class="px-4 py-3 d-flex align-items-center justify-content-between"
+             style="background: #20c997;">
+            <span class="fw-semibold" style="color: #fff;">
+                <i class="bi bi-people-fill me-2"></i>Members
+            </span>
+            <span class="badge rounded-pill fw-semibold px-3 py-2"
+                  style="background: rgba(0,0,0,0.15); color: #fff; font-size: 0.8rem;">
+                @Model.Members.Count member@(Model.Members.Count != 1 ? "s" : "")
+            </span>
+        </div>
+
+        <div class="card-body p-0">
+            @if (!Model.Members.Any())
+            {
+                <div class="d-flex flex-column justify-content-center align-items-center py-5 gap-2">
+                    <i class="bi bi-people" style="font-size: 2.5rem; color: #d1d5db;"></i>
+                    <h5 class="mb-0 fw-semibold" style="color: #9ca3af;">No members registered yet.</h5>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr class="text-center" style="background: #f0faf6; color: #374151;">
+                                <th class="text-nowrap py-3 fw-semibold">Member ID</th>
+                                <th class="text-nowrap py-3 fw-semibold">Name</th>
+                                <th class="text-nowrap py-3 fw-semibold">Membership Status</th>
+                                <th class="text-nowrap py-3 fw-semibold">Attendance Status</th>
+                                <th class="text-nowrap py-3 fw-semibold">Date Registered</th>
+                                <th class="text-nowrap py-3 fw-semibold">Action</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        }
+                        </thead>
+                        <tbody>
+                            @foreach (var member in Model.Members)
+                            {
+                                <tr class="text-center" style="border-bottom: 1px solid #f0faf6;">
+                                    <td class="text-nowrap fw-semibold py-3" style="color: #20c997;">@member.MemberId</td>
+                                    <td class="text-nowrap py-3" style="color: #111;">@member.Name</td>
+                                    <td class="text-nowrap py-3">
+                                        <span class="badge rounded-pill px-3 py-2 fw-medium"
+                                              style="background: #f0faf6; color: #20c997; border: 1px solid #d9f2ea; font-size: 0.8rem;">
+                                            @member.MembershipStatus
+                                        </span>
+                                    </td>
+                                    <td class="text-nowrap py-3">
+                                        @if (Model.CheckAttendance(member))
+                                        {
+                                            <span class="badge rounded-pill px-3 py-2 fw-semibold"
+                                                  style="background: #d1fae5; color: #065f46; font-size: 0.8rem;">
+                                                Present
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge rounded-pill px-3 py-2 fw-semibold"
+                                                  style="background: #fef3c7; color: #92400e; font-size: 0.8rem;">
+                                                Absent
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="text-nowrap py-3" style="color: #374151;">@member.DateRegistered</td>
+                                    <td class="text-nowrap py-3">
+                                        <a class="btn btn-sm fw-semibold px-3"
+                                               style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s;"
+                                               onmouseover="this.style.background='#17a589'"
+                                               onmouseout="this.style.background='#20c997'"
+                                               asp-page="/MemberDetail" asp-route-id="@member.Id">
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
     </div>
-</section>
+</div>
+
 <div class="toast-container position-fixed bottom-0 end-0 p-3 w-auto" style="z-index: 9999">
     @if (TempData["SuccessMessage"] != null)
     {

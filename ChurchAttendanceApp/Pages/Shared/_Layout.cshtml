@@ -99,7 +99,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
                         <li class="nav-item">
-                            <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/index" ? "fabac-nav-link--active" : "")"
+                            <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/Index" ? "fabac-nav-link--active" : "")"
                                asp-page="/Index">Home</a>
                         </li>
                         @inject Microsoft.AspNetCore.Identity.SignInManager<ChurchAttendanceApp.Models.AppUser> SignInManager
@@ -109,8 +109,12 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/members" ? "fabac-nav-link--active" : "")"
+                                    <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/Members" ? "fabac-nav-link--active" : "")"
                                        asp-page="/Members">Members</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/AttendanceList" ? "fabac-nav-link--active" : "")"
+                                       asp-page="/AttendanceList">Attendance</a>
                                 </li>
                             }
                             <!-- Divider -->
@@ -145,17 +149,12 @@
                             <li class="nav-item d-none d-lg-flex align-items-center">
                                 <div style="width: 1px; height: 20px; background: #d1d5db; margin: 0 8px;"></div>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/account/login" ? "fabac-nav-link--active" : "")"
-                                   asp-page="/Account/Login">Log In</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="btn fw-semibold px-4 py-2"
                                    style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s;"
                                    onmouseover="this.style.background='#17a589'"
                                    onmouseout="this.style.background='#20c997'"
-                                   asp-page="/Account/SignUp">Sign Up</a>
+                                   asp-page="/Account/Login">Admin Login</a>
                             </li>
                         }
                     </ul>

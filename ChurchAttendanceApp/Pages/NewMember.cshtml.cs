@@ -39,7 +39,7 @@ namespace ChurchAttendanceApp.Pages
                 Address = Input.Address,
                 Email = Input.Email,
                 Phone = Input.Phone,
-                MembershipStatus = "Visitor"
+                MembershipStatus = Input.MembershipStatus
             };
             
             _memberService.Add(member);
@@ -54,7 +54,10 @@ public class NewMemberInputModel
 {
     [Required]
     public string Name { get; set; } = string.Empty;
-    
+
+    [Required]
+    public string MembershipStatus { get; set; } = string.Empty;
+
     [Required]
     public string Gender { get; set; } = string.Empty;
 
