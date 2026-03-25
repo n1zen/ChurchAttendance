@@ -27,7 +27,11 @@ public class MemberService
         _context.Members
             .Include(m => m.AttendanceRecords)
             .FirstOrDefault(m => m.MemberId == memberId);
-    
+
+    public List<Member> GetMembersByDate(DateOnly date) =>
+        _context.Members
+            .Where(m => m.AttendanceDate == date)
+            .ToList();
     public void Add(Member member)
     {
         try

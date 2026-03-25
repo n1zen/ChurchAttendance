@@ -99,7 +99,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
                         <li class="nav-item">
-                            <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/index" ? "fabac-nav-link--active" : "")"
+                            <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/Index" ? "fabac-nav-link--active" : "")"
                                asp-page="/Index">Home</a>
                         </li>
                         @inject Microsoft.AspNetCore.Identity.SignInManager<ChurchAttendanceApp.Models.AppUser> SignInManager
@@ -109,8 +109,12 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/members" ? "fabac-nav-link--active" : "")"
+                                    <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/Members" ? "fabac-nav-link--active" : "")"
                                        asp-page="/Members">Members</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/AttendanceList" ? "fabac-nav-link--active" : "")"
+                                       asp-page="/AttendanceList">Attendance</a>
                                 </li>
                             }
                             <!-- Divider -->
@@ -147,7 +151,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/account/login" ? "fabac-nav-link--active" : "")"
+                                <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/Account/Login" ? "fabac-nav-link--active" : "")"
                                    asp-page="/Account/Login">Log In</a>
                             </li>
                             <li class="nav-item">
