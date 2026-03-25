@@ -15,7 +15,7 @@
     </div>
 
     <div class="mb-3">
-        <h2 class="fw-bold mb-0">List of Members</h2>
+        <h2 class="fw-bold mb-0" style="color: var(--color-text-primary);">List of Members</h2>
         <p class="mb-0 small muted-text">
             Date: <span class="fw-semibold member-id-text">@Model.dateToday</span>
         </p>
@@ -35,8 +35,8 @@
             @if (!Model.Members.Any())
             {
                 <div class="d-flex flex-column justify-content-center align-items-center py-5 gap-2">
-                    <i class="bi bi-people" style="font-size: 2.5rem; color: #d1d5db;"></i>
-                    <h5 class="mb-0 fw-semibold" style="color: #9ca3af;">No members registered yet.</h5>
+                    <i class="bi bi-people" style="font-size: 2.5rem; color: var(--color-text-muted);"></i>
+                    <h5 class="mb-0 fw-semibold" style="color: var(--color-text-muted);">No members registered yet.</h5>
                 </div>
             }
             else
@@ -58,7 +58,7 @@
                             {
                                 <tr class="text-center table-row-divider">
                                     <td class="text-nowrap fw-semibold py-3 member-id-text">@member.MemberId</td>
-                                    <td class="text-nowrap py-3" style="color: #111;">@member.Name</td>
+                                    <td class="text-nowrap py-3" style="color: var(--color-text-primary);">@member.Name</td>
                                     <td class="text-nowrap py-3">
                                         <span class="badge rounded-pill px-3 py-2 fw-medium badge-membership">
                                             @member.MembershipStatus
@@ -67,20 +67,14 @@
                                     <td class="text-nowrap py-3">
                                         @if (Model.CheckAttendance(member))
                                         {
-                                            <span class="badge rounded-pill px-3 py-2 fw-semibold"
-                                                  style="background: #d1fae5; color: #065f46; font-size: 0.8rem;">
-                                                Present
-                                            </span>
+                                            <span class="badge rounded-pill px-3 py-2 fw-semibold badge-present">Present</span>
                                         }
                                         else
                                         {
-                                            <span class="badge rounded-pill px-3 py-2 fw-semibold"
-                                                  style="background: #fef3c7; color: #92400e; font-size: 0.8rem;">
-                                                Absent
-                                            </span>
+                                            <span class="badge rounded-pill px-3 py-2 fw-semibold badge-absent">Absent</span>
                                         }
                                     </td>
-                                    <td class="text-nowrap py-3" style="color: #374151;">@member.DateRegistered</td>
+                                    <td class="text-nowrap py-3 muted-text">@member.DateRegistered</td>
                                     <td class="text-nowrap py-3">
                                         <a class="btn btn-sm fw-semibold px-3 btn-fabac" asp-page="/MemberDetail" asp-route-id="@member.Id">View</a>
                                     </td>

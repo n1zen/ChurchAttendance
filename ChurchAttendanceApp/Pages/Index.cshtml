@@ -15,10 +15,10 @@
                 <span class="fw-bold">@Model.MemberCount</span>
             </p>
         </div>
-        <div class="card-body d-flex flex-column justify-content-center align-items-center py-4 px-4 gap-2 text-center" style="background: #fff;">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center py-4 px-4 gap-2 text-center">
             @if (Model.DailyVerse != null)
             {
-                <p class="fst-italic mb-1" style="color: #374151; line-height: 1.7;">
+                <p class="fst-italic mb-1 muted-text" style="line-height: 1.7;">
                     " @Model.DailyVerse.Text "
                 </p>
                 <p class="mb-0 fw-semibold small member-id-text">
@@ -34,7 +34,7 @@
             <h3 class="fw-bold mb-1">Church Attendance</h3>
             <p class="mb-0 small fw-medium header-subtext">Select your option</p>
         </div>
-        <div class="card-body d-flex flex-column flex-sm-row justify-content-around align-items-center gap-3 py-4" style="background: #fff;">
+        <div class="card-body d-flex flex-column flex-sm-row justify-content-around align-items-center gap-3 py-4">
             <a class="btn fw-semibold px-4 py-2 w-100 w-sm-auto btn-fabac" style="max-width: 200px;" asp-page="/OldMember">
                 <i class="bi bi-person-check me-2"></i>Find my name!
             </a>

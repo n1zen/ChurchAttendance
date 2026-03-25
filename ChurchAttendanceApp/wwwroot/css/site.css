@@ -4,7 +4,7 @@
     --color-primary-dark: #0b5ed7;
     --color-primary-light: #e7f1ff;
     /* Backgrounds */
-    --color-bg-page: #f7f2e9;
+    --color-bg-page: #ede8de;
     --color-bg-surface: #ffffff;
     --color-bg-muted: #f5f3ef;
     --color-bg-subtle: #edecea;
@@ -15,6 +15,22 @@
     --color-text-primary: #111111;
     --color-text-secondary: #4b5563;
     --color-text-muted: #9ca3af;
+}
+
+/* Dark theme variables applied when body has .dark-theme */
+.dark-theme {
+    --color-primary: #3b82f6; /* slightly brighter blue for dark */
+    --color-primary-dark: #2563eb;
+    --color-primary-light: #0f172a;
+    --color-bg-page: #080e1a;
+    --color-bg-surface: #111827;
+    --color-bg-muted: #071827;
+    --color-bg-subtle: #0f1724;
+    --color-border: #17202b;
+    --color-border-strong: #1f2a38;
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #cbd5e1;
+    --color-text-muted: #94a3b8;
 }
 
 body {
@@ -179,6 +195,9 @@ footer {
 .member-id-text {
     color: var(--color-primary);
 }
+.member-id-text:hover {
+    color: var(--color-text-secondary);
+}
 .table-header-bg {
     background: var(--color-bg-subtle);
     color: var(--color-text-secondary);
@@ -225,6 +244,33 @@ footer {
     color: var(--color-text-secondary);
 }
 
+/* Theme toggle button */
+.theme-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-text-secondary);
+    border-radius: 8px;
+    padding: 0.35rem 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.theme-toggle-btn:hover {
+    background: rgba(255,255,255,0.02);
+    color: var(--color-text-primary);
+}
+.theme-toggle-icon {
+    font-size: 1rem;
+}
+
+/* Logo variants: show light (default) or white (dark theme) */
+.logo-light { display: inline-block; }
+.logo-dark { display: none; }
+.logo-image { height: 36px; }
+.footer-logo { height: 40px; }
+.dark-theme .logo-light { display: none; }
+.dark-theme .logo-dark { display: inline-block; }
+
 
 /* Footer */
 .footer-title {
@@ -253,3 +299,107 @@ footer {
 .copyright {
     color: var(--color-text-muted);
 }
+
+/* Index.cshtml */
+.card {
+    background: var(--color-bg-surface);
+    color: var(--color-text-primary);
+}
+
+.card-body {
+    background: var(--color-bg-surface);
+    color: var(--color-text-primary);
+}
+
+/* Badge Present/Absent/Membership Dark Modes */
+.dark-theme .badge-present {
+    background: #064e3b;
+    color: #6ee7b7;
+}
+
+.dark-theme .badge-absent {
+    background: #451a03;
+    color: #fcd34d;
+}
+
+.dark-theme .badge-membership {
+    background: rgba(59, 130, 246, 0.15);
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+/* Bootstrap Table Dark Mode */
+/* Table dark mode support */
+.dark-theme .table {
+    --bs-table-bg: var(--color-bg-surface);
+    --bs-table-color: var(--color-text-primary);
+    --bs-table-hover-bg: var(--color-bg-muted);
+    --bs-table-striped-bg: var(--color-bg-subtle);
+    --bs-table-border-color: var(--color-border);
+}
+
+.dark-theme .table-header-bg {
+    background: var(--color-bg-subtle) !important;
+    color: var(--color-text-secondary);
+}
+
+.dark-theme .table-row-divider {
+    border-bottom: 1px solid var(--color-border) !important;
+}
+
+.dark-theme .card-body {
+    background: var(--color-bg-surface) !important;
+}
+
+.dark-theme .table-hover > tbody > tr:hover > * {
+    color: var(--color-text-primary) !important;
+    background-color: var(--color-bg-muted);
+}
+
+/* Bootstrap Form Control Dark Mode */
+.dark-theme .form-control {
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-strong);
+}
+
+    .dark-theme .form-control:focus {
+        background-color: var(--color-bg-muted);
+        color: var(--color-text-primary);
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.15);
+    }
+
+    .dark-theme .form-control[readonly] {
+        background-color: var(--color-bg-subtle);
+        color: var(--color-text-secondary);
+    }
+.dark-theme input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.dark-theme .form-select {
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-strong);
+}
+.dark-theme .form-control::placeholder {
+    color: var(--color-text-muted);
+    opacity: 1;
+}
+
+.dark-theme .form-select option {
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-primary);
+}
+
+.dark-theme .btn-danger-soft {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+    .dark-theme .btn-danger-soft:hover {
+        background: rgba(239, 68, 68, 0.25);
+        color: #fca5a5;
+    }
