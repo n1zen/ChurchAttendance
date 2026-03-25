@@ -403,3 +403,33 @@ footer {
         background: rgba(239, 68, 68, 0.25);
         color: #fca5a5;
     }
+
+.dark-theme .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+.dark-theme .navbar-toggler {
+    border-color: var(--color-border-strong);
+}
+
+/* Mobile nav spacing */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        padding: 0.75rem 0;
+        border-top: 1px solid var(--color-border);
+        margin-top: 0.5rem;
+    }
+
+    .navbar-nav .nav-link {
+        padding-left: 0.75rem !important;
+        border-radius: 8px;
+    }
+
+        .navbar-nav .nav-link:hover {
+            background: var(--color-bg-muted);
+        }
+
+    .navbar-nav .btn {
+        margin-top: 0.25rem;
+    }
+}
