@@ -22,6 +22,12 @@ public class AttendanceService
             .Where(a => a.MemberId == memberId)
             .ToList();
 
+    public List<AttendanceRecord> GetByDate(DateOnly date) =>
+        _context.AttendanceRecords
+            .OrderByDescending(a => a.Id)
+            .Where(a => a.AttendanceDate == date)
+            .ToList();
+
     public void Add(AttendanceRecord attendanceRecord)
     {
         attendanceRecord.AttendanceDate = DateOnly.FromDateTime(DateTime.Today);

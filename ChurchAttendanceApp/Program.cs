@@ -86,6 +86,13 @@ app.UseAuthentication();
 // authorization permissions rules
 app.UseAuthorization();
 
+// Apply pending migrations and create the database if it doesn't exist
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ChurchDbContext>();
+    db.Database.Migrate();
+}
+
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
@@ -113,17 +120,8 @@ using (var scope = app.Services.CreateScope())
 app.MapRazorPages();
 app.MapControllers();
 
-
-// use for Azure App Service
-// Apply pending migrations and create the database if it doesn't exist
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ChurchDbContext>();
-    db.Database.Migrate();
-}
-
 // disable on Azure and local dev
 // uncomment when deploying to master (Render deployment)
-// app.Urls.Add("http://0.0.0.0:8080");
+//app.Urls.Add("http://0.0.0.0:8080");
 
 app.Run();

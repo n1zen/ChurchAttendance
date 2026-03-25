@@ -1,71 +1,103 @@
 ﻿@page
 @model ChurchAttendanceApp.Pages.NewMemberModel
-@{ ViewData["Title"] = "New Member"; }
-<div class="card m-2 text-bg-light border-success w-100 border-3" style="max-width: 600px">
-    <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
-        <h1 class="text-center">Registration Form</h1>
-    </div>
-    <div class="card-body">
-        <form asp-page="/NewMember" method="post" id="registrationForm" novalidate>
-            @Html.AntiForgeryToken()
-            <div class="mb-3">
-                <label asp-for="DateNow" class="form-label">Date</label>
-                <input type="date" readonly class="form-control text-center" asp-for="DateNow" />
-            </div>
-            <div class="mb-3">
-                <label for="memberId" class="form-label">Member ID</label>
-                <input type="text" readonly class="form-control text-secondary fst-italic" id="memberId" placeholder="SDA-" />
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.Name" class="form-label">Name</label>
-                <input type="text" class="form-control" asp-for="Input.Name" id="nameInput" placeholder="Put your name here..." required />
-                <div class="invalid-feedback">Please enter your name.</div>
-                <span asp-validation-for="Input.Name" class="invalid-feedback d-block"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.Gender" class="form-label">Gender</label>
-                <select asp-for="Input.Gender" class="form-select" aria-label="gender" required >
-                    <option value="" selected>Choose your gender...</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                    <option value="Prefer not to say">Prefer not to say</option>
-                </select>
-                <div class="invalid-feedback">Please select your gender.</div>
-                <span asp-validation-for="Input.Gender" class="invalid-feedback d-block"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.Birthday" class="form-label">Birthday</label>
-                <input type="date" class="form-control text-center" asp-for="Input.Birthday" value="@Model.DateNow.ToString("yyyy-MM-dd")" required />
-                <div class="invalid-feedback">Please enter your birthday.</div>
-                <span asp-validation-for="Input.Birthday" class="invalid-feedback d-block"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.DateBaptized" class="form-label">Date Baptized</label>
-                <input type="date" class="form-control text-center" asp-for="Input.DateBaptized"/>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.Address" class="form-label">Address</label>
-                <input type="text" class="form-control" asp-for="Input.Address" placeholder="Put your address here."/>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.Email" class="form-label">Email</label>
-                <input type="email" class="form-control" asp-for="Input.Email" placeholder="email@example.com">
-                <div class="invalid-feedback">Please enter a valid email.</div>
-                <span asp-validation-for="Input.Email" class="invalid-feedback d-block"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Input.Phone" class="form-label">Phone</label>
-                <input type="text" class="form-control" asp-for="Input.Phone" placeholder="09xxxxxxxxx" pattern="^09\d{9}$" >
-                <div class="invalid-feedback">Please enter a valid Filipino phone number.</div>
-                <span asp-validation-for="Input.Phone" class="invalid-feedback d-block"></span>
-            </div>
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <button type="submit" class="btn btn-primary">Register</button>
-            </div>
-        </form>
+@{
+    ViewData["Title"] = "New Member";
+}
+
+<div class="d-flex flex-column w-100" style="max-width: 600px">
+    <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start"
+            style="background: transparent; color: #20c997; border: 2px solid #20c997; border-radius: 8px; transition: all 0.2s;"
+            onmouseover="this.style.background='#20c997'; this.style.color='#fff'"
+            onmouseout="this.style.background='transparent'; this.style.color='#20c997'"
+            onclick="history.back()">
+        <i class="bi bi-arrow-left me-2"></i>Back
+    </button>
+
+    <div class="card border-0 shadow-sm w-100" style="border-radius: 12px; overflow: hidden;">
+        <div class="px-4 py-4 text-center" style="background: #20c997;">
+            <h3 class="fw-bold mb-0" style="color: #fff;">Registration Form</h3>
+        </div>
+        <div class="card-body px-4 py-4" style="background: #fff;">
+            <form asp-page="/NewMember" method="post" id="registrationForm" novalidate>
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label asp-for="DateNow" class="form-label fw-semibold" style="color: #374151;">Current Date</label>
+                    <input type="date" readonly class="form-control text-center" asp-for="DateNow"
+                           style="border-color: #d1d5db;" />
+                </div>
+                <div class="mb-3">
+                    <label for="memberId" class="form-label fw-semibold" style="color: #374151;">Member ID</label>
+                    <input type="text" readonly class="form-control fst-italic" id="memberId" placeholder="SDA-"
+                           style="border-color: #d1d5db; color: #9ca3af;" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Name" class="form-label fw-semibold" style="color: #374151;"></label>
+                    <input type="text" class="form-control" asp-for="Input.Name" id="nameInput"
+                           placeholder="Put your name here..." required style="border-color: #d1d5db;" />
+                    <div class="invalid-feedback">Please enter your name.</div>
+                    <span asp-validation-for="Input.Name" class="invalid-feedback d-block"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.MembershipStatus" class="form-label fw-semibold" style="color: #374151;"></label>
+                    <select asp-for="Input.MembershipStatus" class="form-select" required style="border-color: #d1d5db;">
+                        <option value="" selected>Choose your membership status...</option>
+                        <option value="Visitor">Visitor</option>
+                        <option value="Member">Member</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Gender" class="form-label fw-semibold" style="color: #374151;"></label>
+                    <select asp-for="Input.Gender" class="form-select" required style="border-color: #d1d5db;">
+                        <option value="" selected>Choose your gender...</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                        <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                    <div class="invalid-feedback">Please select your gender.</div>
+                    <span asp-validation-for="Input.Gender" class="invalid-feedback d-block"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Birthday" class="form-label fw-semibold" style="color: #374151;"></label>
+                    <input type="date" class="form-control text-center" asp-for="Input.Birthday"
+                           value="@Model.DateNow.ToString("yyyy-MM-dd")" required style="border-color: #d1d5db;" />
+                    <div class="invalid-feedback">Please enter your birthday.</div>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.DateBaptized" class="form-label fw-semibold" style="color: #374151;"></label>
+                    <input type="date" class="form-control text-center" asp-for="Input.DateBaptized"
+                           style="border-color: #d1d5db;" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Address" class="form-label fw-semibold" style="color: #374151;"></label>
+                    <input type="text" class="form-control" asp-for="Input.Address"
+                           placeholder="Put your address here." style="border-color: #d1d5db;" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Email" class="form-label fw-semibold" style="color: #374151;"></label>
+                    <input type="email" class="form-control" asp-for="Input.Email"
+                           placeholder="email@example.com" style="border-color: #d1d5db;" />
+                    <div class="invalid-feedback">Please enter a valid email.</div>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Phone" class="form-label fw-semibold" style="color: #374151;"></label>
+                    <input type="text" class="form-control" asp-for="Input.Phone"
+                           placeholder="09xxxxxxxxx" pattern="^09\d{9}$" style="border-color: #d1d5db;" />
+                    <div class="invalid-feedback">Please enter a valid Filipino phone number.</div>
+                </div>
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn fw-semibold py-2"
+                            style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s; border: none;"
+                            onmouseover="this.style.background='#17a589'"
+                            onmouseout="this.style.background='#20c997'">
+                        Register
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
 <script>
     (() => {
         const form = document.getElementById('registrationForm');
@@ -79,10 +111,9 @@
     })();
     const nameInput = document.getElementById('nameInput');
     const memberIdPreview = document.getElementById('memberId');
-
     nameInput.addEventListener('input', () => {
         const cleaned = nameInput.value.trim().replace(/\s+/g, '');
         memberIdPreview.value = cleaned.length > 0 ? 'SDA-' + cleaned : '';
         memberIdPreview.placeholder = cleaned.length === 0 ? 'SDA-' : '';
-    })
+    });
 </script>
