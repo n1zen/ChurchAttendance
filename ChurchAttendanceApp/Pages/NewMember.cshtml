@@ -23,6 +23,14 @@
                 <span asp-validation-for="Input.Name" class="invalid-feedback d-block"></span>
             </div>
             <div class="mb-3">
+                <label asp-for="Input.MembershipStatus" class="form-label">Membership Status</label>
+                <select asp-for="Input.MembershipStatus" class="form-select" aria-label="membershipStatus" required>
+                    <option vakue="" selected>Choose your membership status...</option>
+                    <option value="Visitor">Visitor</option>
+                    <option value="Member">Member</option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label asp-for="Input.Gender" class="form-label">Gender</label>
                 <select asp-for="Input.Gender" class="form-select" aria-label="gender" required >
                     <option value="" selected>Choose your gender...</option>
