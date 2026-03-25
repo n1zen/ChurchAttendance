@@ -1,5 +1,6 @@
 using ChurchAttendanceApp.Models;
 using ChurchAttendanceApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 public class AttendanceService
 {
@@ -24,6 +25,7 @@ public class AttendanceService
 
     public List<AttendanceRecord> GetByDate(DateOnly date) =>
         _context.AttendanceRecords
+            .Include(a => a.Member)
             .OrderByDescending(a => a.Id)
             .Where(a => a.AttendanceDate == date)
             .ToList();
@@ -56,6 +58,7 @@ public class AttendanceService
             _context.SaveChanges();
         }
     }
+
 
     // for checking if member is already attending
     public bool ExistsForToday(int memberId, DateOnly date)
