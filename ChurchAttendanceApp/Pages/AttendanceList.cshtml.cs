@@ -29,7 +29,12 @@ namespace ChurchAttendanceApp.Pages
         public void OnGet()
         {
             AttendanceRecords = _attendanceService.GetByDate(CurrentDate);
-            Members = _memberService.GetMembersByDate(CurrentDate);
+            var members = new List<Member>();
+            foreach (var attendanceRecord in AttendanceRecords)
+            {
+                members.Add(attendanceRecord.Member!);
+            }
+            Members = members;
         }
     }
 }
