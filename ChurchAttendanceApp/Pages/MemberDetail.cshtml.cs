@@ -2,9 +2,11 @@ using ChurchAttendanceApp.Services;
 using ChurchAttendanceApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChurchAttendanceApp.Pages
 {
+    [Authorize(Roles = "Admin")]
     public class MemberDetailModel : PageModel
     {
         private readonly MemberService _memberService;

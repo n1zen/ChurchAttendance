@@ -1,0 +1,33 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@baseUrl = http://localhost:5090
+@token =
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ada@ada.com",
+  "password": "TestUser1!"
+}
+
+### Get all members (requires token)
+GET {{baseUrl}}/member
+Authorization: Bearer {{token}}
+
+### Get member by id (requires token)
+GET {{baseUrl}}/member/14
+Authorization: Bearer {{token}}
+
+### Create member (Admin only)
+POST {{baseUrl}}/member
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "memberId": "SDA-JohnDoe",
+  "name": "John Doe",
+  "gender": "Male",
+  "membershipStatus": "Visitor",
+  "DateRegistered": "2025-01-01"
+}

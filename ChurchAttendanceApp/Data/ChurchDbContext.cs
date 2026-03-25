@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ChurchAttendanceApp.Models;
 
 namespace ChurchAttendanceApp.Data;
 
-public class ChurchDbContext : DbContext
+public class ChurchDbContext : IdentityDbContext<AppUser>
 {
     public ChurchDbContext(DbContextOptions<ChurchDbContext> options) : base(options) { }
 
@@ -13,6 +13,11 @@ public class ChurchDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityPasskeyData")
+            .HasNoKey();
+        
         modelBuilder.Entity<Member>(entity =>
         {
             entity.HasIndex(m => m.MemberId).IsUnique();
