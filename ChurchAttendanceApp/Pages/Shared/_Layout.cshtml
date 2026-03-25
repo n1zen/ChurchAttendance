@@ -36,72 +36,98 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- Nav Items -->
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
-                        <li class="nav-item">
-                            <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/Index" ? "fabac-nav-link--active" : "")"
-                               asp-page="/Index">Home</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+
+                    <!-- Nav links -->
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2 fw-medium fabac-nav-link text-center @(currentPage == "/Index" ? "fabac-nav-link--active" : "")"
+                               asp-page="/Index">
+                            <i class="bi bi-house-fill me-2 d-lg-none"></i>Home
+                        </a>
+                    </li>
+
+                    @inject Microsoft.AspNetCore.Identity.SignInManager<ChurchAttendanceApp.Models.AppUser> SignInManager
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        @inject Microsoft.AspNetCore.Identity.UserManager<ChurchAttendanceApp.Models.AppUser> UserManager
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link px-3 py-2 fw-medium fabac-nav-link text-center @(currentPage == "/Members" ? "fabac-nav-link--active" : "")"
+                                       asp-page="/Members">
+                                    <i class="bi bi-people-fill me-2 d-lg-none"></i>Members
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-3 py-2 fw-medium fabac-nav-link text-center @(currentPage == "/AttendanceList" ? "fabac-nav-link--active" : "")"
+                                       asp-page="/AttendanceList">
+                                    <i class="bi bi-calendar-check-fill me-2 d-lg-none"></i>Attendance
+                                </a>
+                            </li>
+                        }
+
+                        <!-- Desktop divider only -->
+                        <li class="nav-item d-none d-lg-flex align-items-center">
+                            <div class="divider-inline"></div>
                         </li>
-                        @inject Microsoft.AspNetCore.Identity.SignInManager<ChurchAttendanceApp.Models.AppUser> SignInManager
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            @inject Microsoft.AspNetCore.Identity.UserManager<ChurchAttendanceApp.Models.AppUser> UserManager
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/Members" ? "fabac-nav-link--active" : "")"
-                                       asp-page="/Members">Members</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link px-3 py-2 fw-medium fabac-nav-link @(currentPage == "/AttendanceList" ? "fabac-nav-link--active" : "")"
-                                       asp-page="/AttendanceList">Attendance</a>
-                                </li>
-                            }
-                            <!-- Divider -->
-                            <li class="nav-item d-none d-lg-flex align-items-center">
-                                <div class="divider-inline"></div>
-                            </li>
 
-                            <!-- User chip -->
-                            <li class="nav-item d-flex align-items-center gap-2 px-3 py-1 user-chip">
-                                <i class="bi bi-person-circle"></i>
-                                <span class="fw-medium small user-chip-text">
-                                    Admin
-                                </span>
-                            </li>
+                        <!-- Mobile divider -->
+                        <li class="d-lg-none">
+                            <hr class="my-2" style="border-color: var(--color-border);" />
+                        </li>
 
-                            <!-- Log Out button -->
-                            <li class="nav-item">
-                                <form method="post" asp-page="/Account/Logout" class="m-0">
-                                    <button type="submit" class="btn btn-sm fw-semibold px-4 py-2 btn-fabac">
-                                        Log Out
-                                    </button>
-                                </form>
-                            </li>
-                            <li class="nav-item ms-2 d-flex align-items-center">
-                                <button id="themeToggle" class="theme-toggle-btn" title="Toggle theme">
-                                    <i id="themeIcon" class="bi bi-moon-fill theme-toggle-icon"></i>
+                        <!-- User chip -->
+                        <li class="nav-item d-flex align-items-center gap-2 px-3 py-1 user-chip justify-content-center">
+                            <i class="bi bi-person-circle"></i>
+                            <span class="fw-medium small user-chip-text">Admin</span>
+                        </li>
+
+                        <!-- Log Out -->
+                        <li class="nav-item">
+                            <form method="post" asp-page="/Account/Logout" class="m-0">
+                                <button type="submit" class="btn btn-sm fw-semibold px-4 py-2 btn-fabac w-100">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Log Out
                                 </button>
-                            </li>
-                        }
-                        else
-                        {
-                            <!-- Divider -->
-                            <li class="nav-item d-none d-lg-flex align-items-center">
-                                <div class="divider-inline"></div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn fw-semibold px-4 py-2 btn-fabac" asp-page="/Account/Login">Admin Login</a>
-                            </li>
-                            <li class="nav-item ms-2 d-flex align-items-center">
-                                <button id="themeToggle" class="theme-toggle-btn" title="Toggle theme">
-                                    <i id="themeIcon" class="bi bi-moon-fill theme-toggle-icon"></i>
-                                </button>
-                            </li>
-                        }
-                    </ul>
-                </div>
+                            </form>
+                        </li>
+
+                        <!-- Theme toggle -->
+                        <li class="nav-item d-flex align-items-center ms-lg-2">
+                            <button id="themeToggle" class="theme-toggle-btn w-100 d-flex align-items-center gap-2 px-3 py-2" title="Toggle theme">
+                                <i id="themeIcon" class="bi bi-moon-fill theme-toggle-icon"></i>
+                                <span class="d-lg-none fw-medium small" style="color: var(--color-text-secondary);">Toggle Theme</span>
+                            </button>
+                        </li>
+                    }
+                    else
+                    {
+                        <!-- Desktop divider only -->
+                        <li class="nav-item d-none d-lg-flex align-items-center">
+                            <div class="divider-inline"></div>
+                        </li>
+
+                        <!-- Mobile divider -->
+                        <li class="d-lg-none">
+                            <hr class="my-2" style="border-color: var(--color-border);" />
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="btn fw-semibold px-4 py-2 btn-fabac w-100" asp-page="/Account/Login">
+                                <i class="bi bi-person-fill me-2"></i>Admin Login
+                            </a>
+                        </li>
+
+                        <!-- Theme toggle -->
+                        <li class="nav-item d-flex align-items-center ms-lg-2">
+                            <button id="themeToggle" class="theme-toggle-btn w-100 d-flex align-items-center gap-2 px-3 py-2" title="Toggle theme">
+                                <i id="themeIcon" class="bi bi-moon-fill theme-toggle-icon"></i>
+                                <span class="d-lg-none fw-medium small" style="color: var(--color-text-secondary);">Toggle Theme</span>
+                            </button>
+                        </li>
+                    }
+                </ul>
+            </div>
             </div>
         </nav>
 
