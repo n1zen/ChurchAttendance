@@ -1,53 +1,70 @@
 ﻿@page
 @model ChurchAttendanceApp.Pages.OldMemberModel
-@{ ViewData["Title"] = "Attendance"; }
-<div class="card m-2 text-bg-light border-success w-100 border-3" style="max-width: 600px">
-    <button class="btn btn-primary"
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<div class="d-flex flex-column w-100" style="max-width: 600px">
+    <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start"
+            style="background: transparent; color: #20c997; border: 2px solid #20c997; border-radius: 8px; transition: all 0.2s;"
+            onmouseover="this.style.background='#20c997'; this.style.color='#fff'"
+            onmouseout="this.style.background='transparent'; this.style.color='#20c997'"
             onclick="history.back()">
-        <i class="bi bi-arrow-left me-2"></i> Back
+        <i class="bi bi-arrow-left me-2"></i>Back
     </button>
-    <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
-        <h1 class="text-center">Attendance</h1>
-    </div>
-    <div class="card-body">
-        <form novalidate asp-page="/OldMember" method="post">
-            <div class="mb-3">
-                <label for="memberSearch" class="form-label">Find your name or ID</label>
-                <input type="text" class="form-control" id="memberSearch"
-                    placeholder="Type your name or ID"
-                    list="memberList"
-                    autocomplete="off" />
-                <datalist id="memberList">
-                    @foreach ( var member in Model.Members )
-                    {
-                        <option value="@member.MemberId">@member.Name</option>
-                    }
-                </datalist>
-                <div class="invalid-feedback" id="memberSearchFeedback">
-                    Please select a valid member from the list.
+
+    <div class="card border-0 shadow-sm w-100" style="border-radius: 12px; overflow: hidden;">
+        <div class="px-4 py-4 text-center" style="background: #20c997;">
+            <h3 class="fw-bold mb-0" style="color: #fff;">Attendance</h3>
+        </div>
+        <div class="card-body px-4 py-4" style="background: #fff;">
+            <form novalidate asp-page="/OldMember" method="post">
+                <div class="mb-3">
+                    <label for="memberSearch" class="form-label fw-semibold" style="color: #374151;">Find your name or ID</label>
+                    <input type="text" class="form-control" id="memberSearch"
+                           placeholder="Type your name or ID"
+                           list="memberList"
+                           autocomplete="off"
+                           style="border-color: #d1d5db;" />
+                    <datalist id="memberList">
+                        @foreach (var member in Model.Members)
+                        {
+                            <option value="@member.MemberId">@member.Name</option>
+                        }
+                    </datalist>
+                    <div class="invalid-feedback" id="memberSearchFeedback">
+                        Please select a valid member from the list.
+                    </div>
+                    <input asp-for="SelectedMemberId" type="hidden" id="selectedMemberId" name="SelectedMemberId" />
                 </div>
-                <input asp-for="SelectedMemberId" type="hidden" id="selectedMemberId" name="SelectedMemberId" />
-            </div>
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <button type="submit" class="btn btn-primary">Confirm</button>
-            </div>
-        </form>
+                <div class="d-grid">
+                    <button type="submit" class="btn fw-semibold py-2"
+                            style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s; border: none;"
+                            onmouseover="this.style.background='#17a589'"
+                            onmouseout="this.style.background='#20c997'">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
 <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
     @if (TempData["ErrorMessage"] != null)
     {
         <div id="errorToast" class="toast align-items-center text-white bg-danger border-0 w-auto"
              role="alert" data-bs-autohide="true" data-bs-delay="3000">
-             <div class="d-flex">
+            <div class="d-flex">
                 <div class="toast-body fw-semibold d-flex flex-row gap-2 align-items-center text-nowrap">
                     <i class="bi bi-exclamation-octagon-fill" style="font-size: 1.2rem;"></i> @TempData["ErrorMessage"]
-                 </div>
-                 <button type="button" class="btn-close btn-close-white me-2 m-auto flex-shirnk-0" data-bs-dismiss="toast"></button>
-             </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto flex-shrink-0" data-bs-dismiss="toast"></button>
+            </div>
         </div>
     }
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const errorToastEl = document.getElementById('errorToast');
@@ -61,19 +78,15 @@
     const hiddenInput = document.getElementById('selectedMemberId');
     const feedback = document.getElementById('memberSearchFeedback');
 
-    // add all the existing members
     const allMembers = @Html.Raw(
-        System.Text.Json.JsonSerializer.Serialize(
-            Model.Members.Select(m => new { id = m.MemberId, name = m.Name })
-        )
-    );
+                        System.Text.Json.JsonSerializer.Serialize(
+                                Model.Members.Select(m => new { id = m.MemberId, name = m.Name })
+                )
+                );
 
-    // filter search
     searchInput.addEventListener('input', () => {
         const query = searchInput.value.toLowerCase().trim();
-
         hiddenInput.value = '';
-
         datalist.innerHTML = '';
         const filtered = allMembers.filter(m =>
             m.id.toLowerCase().includes(query) ||
@@ -82,14 +95,10 @@
         filtered.forEach(m => {
             const option = document.createElement('option');
             option.value = m.id;
-            option.label = `${m.id} | ${m.name}`; 
+            option.label = `${m.id} | ${m.name}`;
             datalist.appendChild(option);
         });
-
-        const exactMatch = allMembers.find(m =>
-            m.id.toLowerCase() === query
-        );
-
+        const exactMatch = allMembers.find(m => m.id.toLowerCase() === query);
         if (exactMatch) {
             hiddenInput.value = exactMatch.id;
             searchInput.classList.remove('is-invalid');
@@ -98,7 +107,6 @@
         }
     });
 
-    // Validate on blur in case user typed a partial value and clicked away
     searchInput.addEventListener('blur', () => {
         if (!hiddenInput.value) {
             searchInput.classList.add('is-invalid');
