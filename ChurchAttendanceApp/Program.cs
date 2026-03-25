@@ -124,6 +124,6 @@ using (var scope = app.Services.CreateScope())
 
 // disable on Azure and local dev
 // uncomment when deploying to master (Render deployment)
-// app.Urls.Add("http://0.0.0.0:8080");
+app.Urls.Add("http://0.0.0.0:8080");
 
 app.Run();
