@@ -6,40 +6,36 @@
 
 <div class="w-100" style="max-width: 1000px">
 
-    <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start"
-            style="background: transparent; color: #20c997; border: 2px solid #20c997; border-radius: 8px; transition: all 0.2s;"
-            onmouseover="this.style.background='#20c997'; this.style.color='#fff'"
-            onmouseout="this.style.background='transparent'; this.style.color='#20c997'"
-            onclick="history.back()">
+    <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start outline-primary-btn" onclick="history.back()">
         <i class="bi bi-arrow-left me-2"></i>Back
     </button>
 
     <!-- Main card -->
-    <div class="card border-0 shadow-sm w-100" style="border-radius: 12px; overflow: hidden;">
-        <div class="px-4 py-4 text-center" style="background: #20c997;">
-            <h3 class="fw-bold mb-1" style="color: #fff;">@Model.Member.Name</h3>
-            <p class="mb-0 small fw-medium" style="color: rgba(255,255,255,0.85);">@Model.Member.MemberId</p>
+    <div class="card border-0 shadow-sm w-100 card-rounded">
+        <div class="px-4 py-4 text-center card-header-primary">
+            <h3 class="fw-bold mb-1">@Model.Member.Name</h3>
+            <p class="mb-0 small fw-medium header-subtext">@Model.Member.MemberId</p>
         </div>
 
-        <div class="card-body d-flex flex-column flex-lg-row gap-3 p-3" style="background: #f7f2e9;">
+        <div class="card-body d-flex flex-column flex-lg-row gap-3 p-3" style="background: var(--color-bg-page);">
 
             <!-- Member Details -->
-            <div class="card border-0 shadow-sm w-100" style="border-radius: 10px; overflow: hidden;">
-                <div class="px-4 py-3 text-center" style="background: #20c997;">
-                    <h5 class="fw-semibold mb-0" style="color: #fff;">Member Details</h5>
+            <div class="card border-0 shadow-sm w-100 card-rounded">
+                <div class="px-4 py-3 text-center card-header-primary">
+                    <h5 class="fw-semibold mb-0">Member Details</h5>
                 </div>
-                <div class="card-body px-4 py-3" style="background: #fff;">
+                <div class="card-body px-4 py-3">
                     <form asp-page="/MemberDetail" asp-route-id="@Model.Member.Id" method="post" id="updateForm">
                         <input type="hidden" asp-for="Member.Id" />
                         <input type="hidden" asp-for="Member.MemberId" />
                         <input type="hidden" asp-for="Member.Name" />
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.MembershipStatus">Membership</label>
-                            <input class="form-control" type="text" readonly asp-for="@Model.Member.MembershipStatus" style="border-color: #d1d5db;" />
+                            <label class="form-label fw-semibold small muted-text" asp-for="@Model.Member.MembershipStatus">Membership</label>
+                            <input class="form-control input-border" type="text" readonly asp-for="@Model.Member.MembershipStatus" />
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.Gender">Gender</label>
-                            <input class="form-control" type="text" readonly asp-for="@Model.Member.Gender" style="border-color: #d1d5db;" />
+                            <label class="form-label fw-semibold small muted-text" asp-for="@Model.Member.Gender">Gender</label>
+                            <input class="form-control input-border" type="text" readonly asp-for="@Model.Member.Gender" />
                             <select class="form-control" hidden asp-for="@Model.Member.Gender" style="border-color: #d1d5db;">
                                 <option value="" selected>Choose your gender...</option>
                                 <option value="Male">Male</option>
@@ -73,62 +69,35 @@
                             <input class="form-control" type="date" readonly asp-for="@Model.Member.DateRegistered" style="border-color: #d1d5db;" />
                         </div>
                         <div class="d-flex gap-2 justify-content-end">
-                            <button id="editBtn" type="button" class="btn fw-semibold px-3"
-                                    style="background: #20c997; color: #fff; border-radius: 8px; border: none; transition: background 0.2s;"
-                                    onmouseover="this.style.background='#17a589'"
-                                    onmouseout="this.style.background='#20c997'">
-                                Edit
-                            </button>
-                            <button id="deleteBtn" type="button" class="btn fw-semibold px-3"
-                                    style="background: #fee2e2; color: #991b1b; border-radius: 8px; border: 1px solid #fca5a5; transition: all 0.2s;"
-                                    onmouseover="this.style.background='#fca5a5'"
-                                    onmouseout="this.style.background='#fee2e2'">
-                                Delete
-                            </button>
-                            <button id="confirmBtn" type="submit" class="btn fw-semibold px-3 d-none"
-                                    style="background: #20c997; color: #fff; border-radius: 8px; border: none; transition: background 0.2s;"
-                                    onmouseover="this.style.background='#17a589'"
-                                    onmouseout="this.style.background='#20c997'">
-                                Confirm
-                            </button>
-                            <button id="cancelBtn" type="button" class="btn fw-semibold px-3 d-none"
-                                    style="background: #f3f4f6; color: #374151; border-radius: 8px; border: 1px solid #d1d5db; transition: all 0.2s;"
-                                    onmouseover="this.style.background='#e5e7eb'"
-                                    onmouseout="this.style.background='#f3f4f6'">
-                                Cancel
-                            </button>
+                            <button id="editBtn" type="button" class="btn fw-semibold px-3 btn-fabac">Edit</button>
+                            <button id="deleteBtn" type="button" class="btn fw-semibold px-3 btn-danger-soft">Delete</button>
+                            <button id="confirmBtn" type="submit" class="btn fw-semibold px-3 d-none btn-fabac">Confirm</button>
+                            <button id="cancelBtn" type="button" class="btn fw-semibold px-3 d-none btn-cancel">Cancel</button>
                         </div>
                     </form>
                 </div>
             </div>
 
             <!-- Attendance Records -->
-            <div class="card border-0 shadow-sm w-100" style="border-radius: 10px; overflow: hidden;">
-                <div class="px-4 py-3 d-flex align-items-center justify-content-between"
-                     style="background: #20c997;">
-                    <span class="fw-semibold" style="color: #fff;">
+            <div class="card border-0 shadow-sm w-100 card-rounded">
+                <div class="px-4 py-3 d-flex align-items-center justify-content-between card-header-primary">
+                    <span class="fw-semibold">
                         <i class="bi bi-calendar-check me-2"></i>Attendance Records
                     </span>
                     @if (Model.CheckAttendance(Model.Member))
                     {
-                        <span class="badge rounded-pill px-3 py-2 fw-semibold"
-                              style="background: #d1fae5; color: #065f46; font-size: 0.8rem;">
-                            Present Today
-                        </span>
+                        <span class="badge rounded-pill px-3 py-2 fw-semibold badge-present">Present Today</span>
                     }
                     else
                     {
-                        <span class="badge rounded-pill px-3 py-2 fw-semibold"
-                              style="color: #92400e; background: #fef3c7; font-size: 0.8rem;">
-                            Absent Today
-                        </span>
+                        <span class="badge rounded-pill px-3 py-2 fw-semibold badge-absent">Absent Today</span>
                     }
                 </div>
                 <div class="card-body p-0" style="background: #fff;">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
                             <thead>
-                                <tr class="text-center" style="background: #f0faf6; color: #374151;">
+                                <tr class="text-center table-header-bg">
                                     <th class="py-3 fw-semibold">Id</th>
                                     <th class="py-3 fw-semibold">Date</th>
                                 </tr>
@@ -136,11 +105,9 @@
                             <tbody>
                                 @foreach (var attendanceRecord in Model.AttendanceRecords)
                                 {
-                                    <tr class="text-center" style="border-bottom: 1px solid #f0faf6;">
-                                        <td class="py-3" style="color: #6b7280;">@attendanceRecord.Id</td>
-                                        <td class="py-3 fw-medium" style="color: #374151;">
-                                            @attendanceRecord.AttendanceDate.ToString("MMM dd, yyyy")
-                                        </td>
+                                    <tr class="text-center table-row-divider">
+                                        <td class="py-3 attendance-id-text">@attendanceRecord.Id</td>
+                                        <td class="py-3 fw-medium attendance-date-text">@attendanceRecord.AttendanceDate.ToString("MMM dd, yyyy")</td>
                                     </tr>
                                 }
                             </tbody>
@@ -171,18 +138,6 @@
             </div>
         </div>
     </div>
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div id="successToast" class="toast align-items-center text-white bg-info border-0 w-auto"
-             role="alert" data-bs-autohide="true" data-bs-delay="3000">
-            <div class="d-flex">
-                <div class="toast-body fw-semibold d-flex flex-row gap-2 text-nowrap">
-                    <i class="bi bi-check-lg"></i> @TempData["SuccessMessage"]
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto flex-shrink-0" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    }
 </div>
 
 <script>
@@ -231,11 +186,5 @@
             e.stopPropagation();
             deleteToast.show();
         });
-
-        const successToastEl = document.getElementById('successToast');
-        if (successToastEl) {
-            const successToast = new bootstrap.Toast(successToastEl);
-            successToast.show();
-        }
     });
 </script>
