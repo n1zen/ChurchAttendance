@@ -1,0 +1,255 @@
+:root {
+    /* Brand (blue theme) */
+    --color-primary: #0d6efd; /* bootstrap primary blue */
+    --color-primary-dark: #0b5ed7;
+    --color-primary-light: #e7f1ff;
+    /* Backgrounds */
+    --color-bg-page: #f7f2e9;
+    --color-bg-surface: #ffffff;
+    --color-bg-muted: #f5f3ef;
+    --color-bg-subtle: #edecea;
+    /* Borders */
+    --color-border: #e8e5e1;
+    --color-border-strong: #d1cdc8;
+    /* Text */
+    --color-text-primary: #111111;
+    --color-text-secondary: #4b5563;
+    --color-text-muted: #9ca3af;
+}
+
+body {
+    background: var(--color-bg-page);
+}
+
+nav {
+    background: var(--color-bg-surface);
+    border-bottom: 1px solid var(--color-primary-dark);
+}
+
+.fabac-nav-link {
+    color: var(--color-text-secondary);
+    position: relative;
+    transition: color 0.2s;
+}
+
+    .fabac-nav-link:hover {
+        color: var(--color-primary);
+    }
+
+.fabac-nav-link--active {
+    color: var(--color-primary) !important;
+    font-weight: 600 !important;
+}
+
+    .fabac-nav-link--active::after {
+        content: '';
+        position: absolute;
+        bottom: 4px;
+        left: 12px;
+        right: 12px;
+        height: 2px;
+        background: var(--color-primary);
+        border-radius: 2px;
+    }
+
+/* Footer */
+footer {
+    background: var(--color-bg-surface);
+    border-top: 1px solid var(--color-primary-dark);
+}
+
+/* Branding */
+.brand-name {
+    font-size: 0.95rem;
+    color: var(--color-text-primary);
+    letter-spacing: 0.01em;
+}
+
+.brand-subtitle {
+    font-size: 0.68rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* Navbar */
+.divider-inline {
+    width: 1px;
+    height: 20px;
+    background: var(--color-border-strong);
+    margin: 0 8px;
+}
+
+.user-chip {
+    background: var(--color-bg-muted);
+    border: 1px solid var(--color-border);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-chip .bi {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+}
+
+.user-chip-text {
+    max-width: 140px;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.btn-fabac {
+    background: var(--color-primary);
+    color: #fff !important;
+    border: none;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+.btn-fabac:hover {
+    background: var(--color-primary-dark);
+    color: #fff !important;
+}
+
+/* Card header using primary color */
+.card-header-primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+.card-header-primary-border {
+    border-bottom: 1px solid var(--color-primary-dark);
+}
+
+/* Outline primary button */
+.outline-primary-btn {
+    background: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+.outline-primary-btn:hover {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+/* Input and form utilities */
+.input-border {
+    border-color: var(--color-border-strong) !important;
+}
+.muted-text {
+    color: var(--color-text-secondary) !important;
+}
+
+/* Card rounded */
+.card-rounded {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Header small subtitle */
+.header-subtext {
+    color: rgba(255,255,255,0.85);
+}
+
+/* Max width helpers used in pages */
+.max-w-600 { max-width: 600px; }
+.max-w-450 { max-width: 450px; }
+.max-w-1000 { max-width: 1000px; }
+.max-w-1100 { max-width: 1100px; }
+
+/* Badges and table styling */
+.badge-muted {
+    background: rgba(0,0,0,0.15);
+    color: #fff;
+    font-size: 0.8rem;
+}
+.badge-membership {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    border: 1px solid rgba(13,110,253,0.08);
+    font-size: 0.8rem;
+}
+.member-id-text {
+    color: var(--color-primary);
+}
+.table-header-bg {
+    background: var(--color-bg-subtle);
+    color: var(--color-text-secondary);
+}
+.table-row-divider {
+    border-bottom: 1px solid var(--color-bg-subtle);
+}
+
+/* Toast container z-index utility */
+.toast-fixed { z-index: 9999; }
+
+/* Danger and cancel buttons */
+.btn-danger-soft {
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: 8px;
+    border: 1px solid #fca5a5;
+    transition: background 0.15s;
+}
+.btn-danger-soft:hover { background: #fca5a5; }
+.btn-cancel {
+    background: #f3f4f6;
+    color: var(--color-text-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--color-border-strong);
+}
+.btn-cancel:hover { background: #e5e7eb; }
+
+/* Attendance records specific */
+.badge-present {
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 0.8rem;
+}
+.badge-absent {
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 0.8rem;
+}
+.attendance-id-text {
+    color: var(--color-text-muted);
+}
+.attendance-date-text {
+    color: var(--color-text-secondary);
+}
+
+
+/* Footer */
+.footer-title {
+    color: var(--color-text-primary);
+}
+.footer-sub {
+    color: var(--color-text-secondary);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+}
+.footer-hr {
+    border-color: var(--color-border);
+}
+.contact-item {
+    color: var(--color-text-secondary);
+}
+.text-primary-custom {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: text-decoration 0.15s;
+}
+.text-primary-custom:hover {
+    text-decoration: underline;
+}
+.copyright {
+    color: var(--color-text-muted);
+}

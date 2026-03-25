@@ -5,33 +5,24 @@
 }
 
 <div class="w-100" style="max-width: 1000px">
-    <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start"
-            style="background: transparent; color: #20c997; border: 2px solid #20c997; border-radius: 8px; transition: all 0.2s;"
-            onmouseover="this.style.background='#20c997'; this.style.color='#fff'"
-            onmouseout="this.style.background='transparent'; this.style.color='#20c997'"
-            onclick="history.back()">
+    <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start outline-primary-btn" onclick="history.back()">
         <i class="bi bi-arrow-left me-2"></i>Back
     </button>
     <!-- Header -->
     <div class="mb-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
         <div>
-            <h2 class="fw-bold mb-0" style="color: #111;">Attendance List</h2>
-            <p class="mb-0 small" style="color: #6b7280;">
+        <h2 class="fw-bold mb-0">Attendance List</h2>
+            <p class="mb-0 small muted-text">
                 Showing attendance for
-                <span class="fw-semibold" style="color: #20c997;">
-                    @Model.CurrentDate.ToString("MMMM dd, yyyy")
-                </span>
+                <span class="fw-semibold member-id-text">@Model.CurrentDate.ToString("MMMM dd, yyyy")</span>
             </p>
         </div>
         <form method="get" id="dateForm">
             <div class="input-group">
-                <span class="input-group-text" style="background: #f0faf6; border-color: #20c997; color: #20c997;">
+                <span class="input-group-text" style="background: var(--color-bg-subtle); border-color: var(--color-primary); color: var(--color-primary);">
                     <i class="bi bi-calendar3"></i>
                 </span>
-                <input type="date" name="CurrentDate" class="form-control"
-                       style="border-color: #20c997; max-width: 200px;"
-                       value="@Model.CurrentDate.ToString("yyyy-MM-dd")"
-                       onchange="this.form.submit()" />
+                <input type="date" name="CurrentDate" class="form-control" style="border-color: var(--color-primary); max-width: 200px;" value="@Model.CurrentDate.ToString("yyyy-MM-dd")" onchange="this.form.submit()" />
             </div>
         </form>
     </div>
@@ -40,13 +31,11 @@
     <div class="card border-0 shadow-sm" style="border-radius: 12px; overflow: hidden;">
 
         <!-- Card Header -->
-        <div class="px-4 py-3 d-flex align-items-center justify-content-between"
-             style="background: #20c997; border-bottom: 1px solid #17a589;">
-            <span class="fw-semibold" style="color: #fff;">
+        <div class="px-4 py-3 d-flex align-items-center justify-content-between card-header-primary card-header-primary-border">
+            <span class="fw-semibold">
                 <i class="bi bi-people-fill me-2"></i>Present Members
             </span>
-            <span class="badge rounded-pill fw-semibold px-3 py-2"
-                  style="background: rgba(0,0,0,0.15); color: #fff; font-size: 0.8rem;">
+            <span class="badge rounded-pill fw-semibold px-3 py-2 badge-muted">
                 @Model.Members.Count member@(Model.Members.Count != 1 ? "s" : "")
             </span>
         </div>
@@ -74,7 +63,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead>
-                            <tr class="text-center" style="background: #f0faf6; color: #374151;">
+                            <tr class="text-center table-header-bg">
                                 <th class="text-nowrap py-3 fw-semibold">Member ID</th>
                                 <th class="text-nowrap py-3 fw-semibold">Name</th>
                                 <th class="text-nowrap py-3 fw-semibold">Gender</th>
@@ -86,29 +75,16 @@
                         <tbody>
                             @foreach (var member in Model.Members)
                             {
-                                <tr class="text-center" style="border-bottom: 1px solid #f0faf6;">
-                                    <td class="text-nowrap fw-semibold py-3" style="color: #20c997;">
-                                        @member.MemberId
-                                    </td>
+                                <tr class="text-center table-row-divider">
+                                    <td class="text-nowrap fw-semibold py-3 member-id-text">@member.MemberId</td>
                                     <td class="text-nowrap py-3" style="color: #111;">@member.Name</td>
                                     <td class="text-nowrap py-3" style="color: #374151;">@member.Gender</td>
                                     <td class="text-nowrap py-3">
-                                        <span class="badge rounded-pill px-3 py-2 fw-medium"
-                                              style="background: #f0faf6; color: #20c997; border: 1px solid #d9f2ea; font-size: 0.8rem;">
-                                            @member.MembershipStatus
-                                        </span>
+                                        <span class="badge rounded-pill px-3 py-2 fw-medium badge-membership">@member.MembershipStatus</span>
                                     </td>
-                                    <td class="text-nowrap py-3" style="color: #374151;">
-                                        @member.DateRegistered.ToString("MMM dd, yyyy")
-                                    </td>
+                                    <td class="text-nowrap py-3" style="color: #374151;">@member.DateRegistered.ToString("MMM dd, yyyy")</td>
                                     <td class="text-nowrap py-3">
-                                        <a class="btn btn-sm fw-semibold px-3"
-                                               style="background: #20c997; color: #fff; border-radius: 8px; transition: background 0.2s;"
-                                               onmouseover="this.style.background='#17a589'"
-                                               onmouseout="this.style.background='#20c997'"
-                                               asp-page="/MemberDetail" asp-route-id="@member.Id">
-                                            View
-                                        </a>
+                                        <a class="btn btn-sm fw-semibold px-3 btn-fabac" asp-page="/MemberDetail" asp-route-id="@member.Id">View</a>
                                     </td>
                                 </tr>
                             }
