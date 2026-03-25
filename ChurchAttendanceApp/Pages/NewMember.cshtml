@@ -2,6 +2,10 @@
 @model ChurchAttendanceApp.Pages.NewMemberModel
 @{ ViewData["Title"] = "New Member"; }
 <div class="card m-2 text-bg-light border-success w-100 border-3" style="max-width: 600px">
+    <button class="btn btn-primary"
+        onclick="history.back()">
+        <i class="bi bi-arrow-left me-2"></i> Back
+    </button>
     <div class="card-header d-flex flex-column justify-content-center align-items-center px-5 py-3" style="background: #20c997">
         <h1 class="text-center">Registration Form</h1>
     </div>

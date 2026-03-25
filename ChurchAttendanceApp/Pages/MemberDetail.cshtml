@@ -4,6 +4,10 @@
     ViewData["Title"] = Model.Member?.Name?? "Member Detail"; 
 }
 <section class="card m-2 text-bg-light border-success border-3 w-100" style="max-width: 1000px">
+    <button class="btn btn-primary"
+            onclick="history.back()">
+        <i class="bi bi-arrow-left me-2"></i> Back
+    </button>
     <div class="card-header d-flex flex-column justify-content-center align-items-center px-3 px-md-5 py-3" style="background: #20c997">
         <h3 class="card-title mb-1 pb-0 fw-bolder text-center">@Model.Member.Name</h3>
         <p class="card-subtitle mb-0 pb-0 fw-semibold text-center">@Model.Member.MemberId</p>

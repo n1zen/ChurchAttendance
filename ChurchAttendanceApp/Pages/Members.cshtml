@@ -2,6 +2,10 @@
 @model ChurchAttendanceApp.Pages.MembersModel
 @{ ViewData["Title"] = "Member List"; }
 <section class="card m-2 text-bg-light border-success border-3 w-100">
+    <button class="btn btn-primary"
+            onclick="history.back()">
+        <i class="bi bi-arrow-left me-2"></i> Back
+    </button>
     <div class="card-header px-5 pt-3 py-1" style="background: #20c997">
         <h2 class="card-title text-center">List of Members</h2>
         <p class="text-white text-center">Date: @Model.dateToday</p>
