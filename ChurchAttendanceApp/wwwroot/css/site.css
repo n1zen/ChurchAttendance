@@ -433,3 +433,106 @@ footer {
         margin-top: 0.25rem;
     }
 }
+
+/* ═══════════════════════════════════════
+   DATATABLES — single source of truth
+   ═══════════════════════════════════════ */
+
+/* Headers */
+#membersTable thead th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+/* Info text */
+.dataTables_wrapper .dataTables_info {
+    float: none !important;
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    padding: 12px 16px 4px !important;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+/* Pagination wrapper */
+.dataTables_wrapper .dataTables_paginate {
+    float: none !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 4px 16px 14px !important;
+    gap: 4px;
+}
+
+/* Every pagination button */
+.dataTables_wrapper .dataTables_paginate .page-item .page-link {
+    border-radius: 8px !important;
+    border: 2px solid var(--color-primary) !important;
+    color: var(--color-primary) !important;
+    background: transparent !important;
+    font-weight: 600 !important;
+    min-width: 36px;
+    text-align: center;
+    transition: all 0.2s;
+    box-shadow: none !important;
+    margin: 0 2px;
+}
+
+.dataTables_wrapper .dataTables_paginate .page-item .page-link:hover {
+    background: var(--color-primary) !important;
+    color: #fff !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
+    background: var(--color-primary) !important;
+    color: #fff !important;
+    border-color: var(--color-primary) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .page-item.disabled .page-link {
+    opacity: 0.4 !important;
+    background: transparent !important;
+    color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    cursor: not-allowed;
+}
+
+/* Dark mode */
+.dark-theme .dataTables_wrapper .dataTables_info {
+    color: var(--color-text-secondary) !important;
+}
+
+.dark-theme .dataTables_wrapper .dataTables_paginate {
+    --bs-pagination-bg: transparent;
+    --bs-pagination-border-color: var(--color-primary);
+    --bs-pagination-color: var(--color-primary);
+    --bs-pagination-hover-bg: var(--color-primary);
+    --bs-pagination-hover-color: #fff;
+    --bs-pagination-hover-border-color: var(--color-primary);
+    --bs-pagination-active-bg: var(--color-primary);
+    --bs-pagination-active-border-color: var(--color-primary);
+    --bs-pagination-disabled-bg: transparent;
+    --bs-pagination-disabled-color: var(--color-primary);
+    --bs-pagination-disabled-border-color: var(--color-primary);
+}
+
+.dark-theme .dataTables_wrapper .dataTables_paginate .page-item .page-link {
+    background-color: transparent !important;
+    color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+}
+
+.dark-theme .dataTables_wrapper .dataTables_paginate .page-item .page-link:hover,
+.dark-theme .dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
+    background-color: var(--color-primary) !important;
+    color: #fff !important;
+    border-color: var(--color-primary) !important;
+}
+
+.dark-theme .dataTables_wrapper .dataTables_paginate .page-item.disabled .page-link {
+    background-color: transparent !important;
+    color: var(--color-primary) !important;
+    opacity: 0.4 !important;
+}
