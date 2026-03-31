@@ -536,21 +536,3 @@ footer {
     color: var(--color-primary) !important;
     opacity: 0.4 !important;
 }
-
-/* Mobile: allow table to scroll horizontally */
-@media (max-width: 767px) {
-    .table-responsive {
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* Reduce table font size slightly on mobile */
-    .table td, .table th {
-        font-size: 0.82rem;
-    }
-
-    /* Make action buttons smaller on mobile */
-    .table .btn-sm {
-        padding: 0.2rem 0.5rem;
-        font-size: 0.75rem;
-    }
-}
