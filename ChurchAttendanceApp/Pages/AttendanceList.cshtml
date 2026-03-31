@@ -54,7 +54,10 @@
                 </select>
             </div>
             <span class="badge rounded-pill fw-semibold px-3 py-2 badge-muted align-self-start align-self-md-center">
-                @Model.Members.Count member@(Model.Members.Count != 1 ? "s" : "")
+                @Model.Members.Count(m => m.MembershipStatus == "Member") member@(Model.Members.Count(m => m.MembershipStatus == "Member") != 1 ? "s" : "")
+            </span>
+            <span class="badge rounded-pill fw-semibold px-3 py-2 badge-muted align-self-start align-self-md-center">
+                @Model.Members.Count(m => m.MembershipStatus == "Visitor") visitor@(Model.Members.Count(m => m.MembershipStatus == "Visitor") != 1 ? "s" : "")
             </span>
         </div>
 
@@ -235,7 +238,7 @@
             }
 
             const table = $('#recordsTable').DataTable({
-                pageLength: 5,
+                pageLength: 20,
                 lengthChange: false,
                 searching: true,
                 dom: 'tip',
