@@ -66,6 +66,7 @@ namespace ChurchAttendanceApp.Pages
                 db.MembershipStatus = Member.MembershipStatus;
                 db.Birthday = Member.Birthday;
                 db.DateBaptized = Member.DateBaptized;
+                db.ChurchOfOrigin = Member.ChurchOfOrigin;
                 db.Address = Member.Address;
                 db.Email = Member.Email;
                 db.Phone = Member.Phone;

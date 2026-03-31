@@ -85,6 +85,7 @@
                     <table class="table table-hover align-middle mb-0" id="recordsTable">
                         <thead>
                             <tr class="text-center table-header-bg">
+                                <th class="text-nowrap py-3 fw-semibold">#</th>
                                 <th class="text-nowrap py-3 fw-semibold">Member ID</th>
                                 <th class="text-nowrap py-3 fw-semibold">Name</th>
                                 <th class="text-nowrap py-3 fw-semibold">Gender</th>
@@ -97,6 +98,7 @@
                             @foreach (var member in Model.Members)
                             {
                                 <tr class="text-center table-row-divider">
+                                    <td class="text-nowrap fw-semibold py-3">@member.AttendanceRecords.First().Id</td>
                                     <td class="text-nowrap fw-semibold py-3 member-id-text">@member.MemberId</td>
                                     <td class="text-nowrap py-3" style="color: var(--color-text-primary)">@member.Name</td>
                                     <td class="text-nowrap py-3" style="color: var(--color-text-primary)">@member.Gender</td>
@@ -242,6 +244,7 @@
                 lengthChange: false,
                 searching: true,
                 dom: 'tip',
+                order: [[0, 'desc']],
                 columnDefs: [
                     { orderable: false, targets: [2, 3, 5] }
                 ],

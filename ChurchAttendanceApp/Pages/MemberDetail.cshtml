@@ -28,12 +28,12 @@
                     <form asp-page="/MemberDetail" asp-route-id="@Model.Member.Id" method="post" id="updateForm">
                         <input type="hidden" asp-for="Member.Id" />
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small muted-text" asp-for="@Model.Member.MemberId">Member ID</label>
-                            <input class="form-control input-border" type="text" readonly asp-for="@Model.Member.MemberId" />
+                            <label class="form-label fw-semibold small muted-text" style="color: #374151;" asp-for="@Model.Member.MemberId">Member ID</label>
+                            <input class="form-control input-border" type="text" readonly asp-for="@Model.Member.MemberId" style="border-color: #d1d5db;" />
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small muted-text" asp-for="@Model.Member.Name">Name</label>
-                            <input class="form-control input-border" type="text" readonly asp-for="@Model.Member.Name" />
+                            <label class="form-label fw-semibold small muted-text" style="color: #374151;" asp-for="@Model.Member.Name">Name</label>
+                            <input class="form-control input-border" type="text" readonly asp-for="@Model.Member.Name" style="border-color: #d1d5db;" />
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold small muted-text" asp-for="@Model.Member.MembershipStatus">Membership</label>
@@ -57,6 +57,10 @@
                         <div class="mb-3">
                             <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.DateBaptized">Date Baptized</label>
                             <input class="form-control" type="date" readonly asp-for="@Model.Member.DateBaptized" style="border-color: #d1d5db;" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small muted-text" style="color: #374151;" asp-for="@Model.Member.ChurchOfOrigin">Church of Origin</label>
+                            <input class="form-control" type="text" readonly asp-for="@Model.Member.ChurchOfOrigin" style="border-color: #d1d5db;"  />
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-semibold small" style="color: #374151;" asp-for="@Model.Member.Address">Address</label>
