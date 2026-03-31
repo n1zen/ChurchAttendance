@@ -41,15 +41,9 @@ namespace ChurchAttendanceApp.Pages
         public IActionResult OnPost()
         {
 
-            ModelState.Remove("Member.MemberId");
-            ModelState.Remove("Member.Name");
             ModelState.Remove("Member.DateRegistered");
             ModelState.Remove("Member.AttendanceDate");
             ModelState.Remove("Member.AttendanceRecords");
-            //foreach (var error in ModelState)
-            //    foreach (var e in error.Value.Errors)
-            //        Console.WriteLine($"{error.Key}: {e.ErrorMessage}");
-
 
             if (!ModelState.IsValid)
             {
@@ -66,11 +60,13 @@ namespace ChurchAttendanceApp.Pages
                 var db = _memberService.Get(Member.Id);
                 if (db == null) return NotFound();
 
-                
+                db.Name = Member.Name;
+                db.MemberId = Member.MemberId;
                 db.Gender = Member.Gender;
                 db.MembershipStatus = Member.MembershipStatus;
                 db.Birthday = Member.Birthday;
                 db.DateBaptized = Member.DateBaptized;
+                db.ChurchOfOrigin = Member.ChurchOfOrigin;
                 db.Address = Member.Address;
                 db.Email = Member.Email;
                 db.Phone = Member.Phone;
