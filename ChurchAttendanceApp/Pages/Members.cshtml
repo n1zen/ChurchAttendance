@@ -22,27 +22,27 @@
     </div>
 
     <div class="card border-0 shadow-sm card-rounded">
-        <div class="px-4 py-3 d-flex align-items-center justify-content-between card-header-primary">
+        <div class="px-4 py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 card-header-primary">
             <span class="fw-semibold">
                 <i class="bi bi-people-fill me-2"></i>Members
             </span>
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex flex-wrap align-items-center gap-2">
                 <input id="memberSearch" type="text" class="form-control form-control-sm"
-                       placeholder="Search members..." style="width: 180px;" />
+                       placeholder="Search members..." style="width: 180px; flex: 1;" />
 
-                <select id="filterMembership" class="form-select form-select-sm" style="width: 160px;">
+                <select id="filterMembership" class="form-select form-select-sm" style="width: 160px; flex: 1;">
                     <option value="">All Members</option>
                     <option value="Member">Member</option>
                     <option value="Visitor">Visitor</option>
                 </select>
 
-                <select id="filterAttendanceStatus" class="form-select form-select-sm" style="width: 160px;">
+                <select id="filterAttendanceStatus" class="form-select form-select-sm" style="width: 160px; flex: 1;">
                     <option value="">All Attendance</option>
                     <option value="Present">Present</option>
                     <option value="Absent">Absent</option>
                 </select>
             </div>
-            <span class="badge rounded-pill fw-semibold px-3 py-2 badge-muted">
+            <span class="badge rounded-pill fw-semibold px-3 py-2 badge-muted align-self-start align-self-md-center">
                 @Model.Members.Count member@(Model.Members.Count != 1 ? "s" : "")
             </span>
         </div>
@@ -118,6 +118,7 @@
 </div>
 @section Scripts {
     <style>
+
         /* Force headers centered */
         table#membersTable > thead > tr > th {
             text-align: center !important;
@@ -192,6 +193,42 @@
             background-color: var(--color-bg-muted);
             color: var(--color-text-primary);
             border-color: var(--color-border-strong);
+        }
+
+        /* Mobile responsiveness */
+        @@media (max-width: 767px) {
+            /* Stack card header vertically */
+            .card-header-primary {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+            }
+                /* Make filters full width on mobile */
+                .card-header-primary .d-flex.flex-wrap {
+                    width: 100%;
+                }
+
+                .card-header-primary input,
+                .card-header-primary select {
+                    width: 100% !important;
+                    flex: 1 1 100% !important;
+                }
+                /* Badge stays left-aligned on mobile */
+                .card-header-primary .badge-muted {
+                    align-self: flex-start;
+                }
+            /* Tighten up page padding on mobile */
+            .dataTables_wrapper .dataTables_info {
+                font-size: 0.78rem !important;
+            }
+
+            .dataTables_wrapper .dataTables_paginate .page-item .page-link {
+                min-width: 30px !important;
+                height: 30px !important;
+                font-size: 0.8rem !important;
+                padding: 0 6px !important;
+                margin: 0 1px !important;
+            }
         }
     </style>
 
