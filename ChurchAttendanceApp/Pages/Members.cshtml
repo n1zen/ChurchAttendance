@@ -250,7 +250,7 @@
                 dom: 'tip',
                 order: [[0, 'desc']],
                 columnDefs: [
-                    { orderable: false, targets: [2, 3, 5] },
+                    { orderable: false, targets: [3, 4, 6] },
                 ],
                 language: {
                     info: "Showing _START_ to _END_ of _TOTAL_ entries",
@@ -268,11 +268,11 @@
             });
 
             $('#filterMembership').on('change', function() {
-                table.column(2).search($(this).val() ? '^' + $(this).val() + '$' : '', true, false).draw();
+                table.column(3).search($(this).val() ? '^' + $(this).val() + '$' : '', true, false).draw();
             });
 
             $('#filterAttendanceStatus').on('change', function() {
-                table.column(3).search($(this).val() ? '^' + $(this).val() + '$' : '', true, false).draw();
+                table.column(4).search($(this).val() ? '^' + $(this).val() + '$' : '', true, false).draw();
             });
 
             const successToastEl = document.getElementById('successToast');
