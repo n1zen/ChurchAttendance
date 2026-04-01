@@ -10,15 +10,15 @@ namespace ChurchAttendanceApp.Pages
     public class AttendanceListModel : PageModel
     {
         private readonly AttendanceService _attendanceService;
-        private readonly MemberService _memberService;
+        private readonly ExportService _exportService;
 
         [BindProperty(SupportsGet = true)]
         public DateOnly CurrentDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
-        public AttendanceListModel(AttendanceService attendanceService, MemberService memberService)
+        public AttendanceListModel(AttendanceService attendanceService, ExportService exportService)
         {
             _attendanceService = attendanceService;
-            _memberService = memberService;
+            _exportService = exportService;
         }
 
         public List<AttendanceRecord> AttendanceRecords { get; set; } = new List<AttendanceRecord>();
@@ -29,12 +29,18 @@ namespace ChurchAttendanceApp.Pages
         public void OnGet()
         {
             AttendanceRecords = _attendanceService.GetByDate(CurrentDate);
-            var members = new List<Member>();
-            foreach (var attendanceRecord in AttendanceRecords)
-            {
-                members.Add(attendanceRecord.Member!);
-            }
+            var members = AttendanceRecords.Select(a => a.Member!).ToList();
             Members = members;
+        }
+
+        public async Task<IActionResult> OnPostExport()
+        {
+            AttendanceRecords = _attendanceService.GetByDate(CurrentDate);
+            var members = AttendanceRecords.Select(a => a.Member!).ToList();
+
+            var columns = new List<string> { "Id", "MemberId", "Name", "Gender", "Birthday", "DateBaptized", "ChurchOfOrigin", "Address", "Email", "Phone", "MembershipStatus", "AttendanceDate", "DateRegistered" };
+            var file = await _exportService.ExportMembers(members, columns);
+            return File(file, "text/csv", $"attendance-{CurrentDate}.csv");
         }
     }
 }
