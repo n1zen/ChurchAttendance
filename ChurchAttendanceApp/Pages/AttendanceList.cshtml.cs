@@ -50,7 +50,7 @@ namespace ChurchAttendanceApp.Pages
 
             var columns = new List<string> { "Id", "MemberId", "Name", "Gender", "Birthday", "DateBaptized", "ChurchOfOrigin", "Address", "Email", "Phone", "MembershipStatus", "AttendanceDate", "DateRegistered" };
 
-            var file = await _exportService.ExportMemberExcel(members, columns);
+            var file = await _exportService.ExportMembersExcel(members, columns);
             return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"attendance-{CurrentDate}.xlsx");
         }
     }

@@ -91,6 +91,7 @@
                                 <th class="text-nowrap py-3 fw-semibold">Member ID</th>
                                 <th class="text-nowrap py-3 fw-semibold">Name</th>
                                 <th class="text-nowrap py-3 fw-semibold">Membership Status</th>
+                                <th class="text-nowrap py-3 fw-semibold">Church of Origin</th> 
                                 <th class="text-nowrap py-3 fw-semibold">Attendance Status</th>
                                 <th class="text-nowrap py-3 fw-semibold">Date Registered</th>
                                 <th class="text-nowrap py-3 fw-semibold">Action</th>
@@ -105,6 +106,21 @@
                                     <td class="text-nowrap py-3" style="color: var(--color-text-primary);">@member.Name</td>
                                     <td class="text-nowrap py-3">
                                         <span class="badge rounded-pill px-3 py-2 fw-medium badge-membership">@member.MembershipStatus</span>
+                                    </td>
+                                    <td class="text-nowrap py-3">
+                                        @if (member.ChurchOfOrigin is null)
+                                        {
+                                            
+                                            <span class="badge rounded-pill px-3 py-2 fw-medium badge-absent">No Church of Origin</span>
+                                        }
+                                        else if (member.MembershipStatus == "Visitor")
+                                        {
+                                            <span class="badge rounded-pill px-3 py-2 fw-medium badge-present">@member.ChurchOfOrigin</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge rounded-pill px-3 py-2 fw-medium badge-membership">@member.ChurchOfOrigin</span>
+                                        }
                                     </td>
                                     <td class="text-nowrap py-3">
                                         @if (Model.CheckAttendance(member))
@@ -273,7 +289,7 @@
                 dom: 'tip',
                 order: [[0, 'desc']],
                 columnDefs: [
-                    { orderable: false, targets: [3, 4, 6] },
+                    { orderable: false, targets: [3, 4, 5, 7] },
                 ],
                 language: {
                     info: "Showing _START_ to _END_ of _TOTAL_ entries",

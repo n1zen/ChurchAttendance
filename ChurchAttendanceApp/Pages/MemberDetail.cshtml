@@ -15,10 +15,32 @@
         <div class="px-4 py-4 text-center card-header-primary">
             <h3 class="fw-bold mb-1">@Model.Member.Name</h3>
             <p class="mb-0 small fw-medium header-subtext">@Model.Member.MemberId</p>
+            <div class="dropdown mt-3">
+                <button class="btn fw-semibold px-3 py-2 btn-light text-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-download me-2"></i>Export
+                </button>
+                <ul class="dropdown-menu text-center mt-1 shadow-lg" style="background: var(--color-bg-muted); border: 1px solid var(--color-border-strong);">
+                    <li>
+                        <form method="post" asp-page-handler="ExportCSV">
+                            <input type="hidden" name="id" value="@Model.Member.Id" />
+                            <button type="submit" class="btn btn-primary btn-sm px-2 my-1">
+                                <i class="bi bi-filetype-csv me-2"></i>Export as CSV
+                            </button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="post" asp-page-handler="ExportExcel">
+                            <input type="hidden" name="id" value="@Model.Member.Id" />
+                            <button type="submit" class="btn btn-primary btn-sm px-2 my-1">
+                                <i class="bi bi-file-earmark-excel me-2"></i>Export as Excel
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
-
+        
         <div class="card-body d-flex flex-column flex-lg-row gap-3 p-3" style="background: var(--color-bg-page);">
-
             <!-- Member Details -->
             <div class="card border-0 shadow-sm w-100 card-rounded">
                 <div class="px-4 py-3 text-center card-header-primary">
@@ -105,10 +127,10 @@
                 </div>
                 <div class="card-body p-0" style="background: #fff;">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
+                        <table class="table table-hover align-middle mb-0" id="recordsTable">
                             <thead>
                                 <tr class="text-center table-header-bg">
-                                    <th class="py-3 fw-semibold">Id</th>
+                                    <th class="py-3 fw-semibold">#</th>
                                     <th class="py-3 fw-semibold">Date</th>
                                 </tr>
                             </thead>
@@ -150,51 +172,182 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const inputs = document.querySelectorAll('#updateForm input:not([type="hidden"])');
-        const editBtn = document.getElementById('editBtn');
-        const deleteBtn = document.getElementById('deleteBtn');
-        const confirmBtn = document.getElementById('confirmBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const genderInput = document.querySelector('input[name="Member.Gender"]');
-        const genderSelect = document.querySelector('select[name="Member.Gender"]');
-        const deleteToast = new bootstrap.Toast(document.getElementById('deleteToast'));
+@section Scripts {
+    <style>
 
-        const originalValues = {};
-        inputs.forEach(input => originalValues[input.name] = input.value);
+        /* Force headers centered */
+        table#membersTable > thead > tr > th {
+            text-align: center !important;
+        }
 
-        editBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            inputs.forEach(input => input.removeAttribute('readonly'));
-            genderInput.setAttribute('hidden', true);
-            genderInput.setAttribute('disabled', true);
-            genderSelect.removeAttribute('hidden');
-            genderSelect.value = genderInput.value;
-            editBtn.classList.add('d-none');
-            deleteBtn.classList.add('d-none');
-            confirmBtn.classList.remove('d-none');
-            cancelBtn.classList.remove('d-none');
+        /* Remove white box from pagination container */
+        .dataTables_wrapper .dataTables_paginate .pagination {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            gap: 4px;
+        }
+
+        /* Center info and pagination */
+        .dataTables_wrapper .dataTables_info {
+            float: none !important;
+            display: block !important;
+            width: 100% !important;
+            text-align: center !important;
+            padding: 12px 16px 4px !important;
+            font-size: 0.85rem;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            float: none !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100% !important;
+            padding: 4px 16px 14px !important;
+        }
+
+        /* Dark mode pagination */
+        .dark-theme .dataTables_wrapper .dataTables_paginate .pagination {
+            background: transparent !important;
+        }
+
+        .dark-theme .dataTables_wrapper .dataTables_paginate .page-item .page-link {
+            background-color: transparent !important;
+            color: var(--color-primary) !important;
+            border: 2px solid var(--color-primary) !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            box-shadow: none !important;
+        }
+
+        .dark-theme .dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
+            background-color: var(--color-primary) !important;
+            color: #fff !important;
+        }
+
+        .dark-theme .dataTables_wrapper .dataTables_paginate .page-item .page-link:hover {
+            background-color: var(--color-primary) !important;
+            color: #fff !important;
+        }
+
+        .dark-theme .dataTables_wrapper .dataTables_paginate .page-item.disabled .page-link {
+            background-color: transparent !important;
+            opacity: 0.4 !important;
+        }
+        /* Filter selects in card header */
+        #filterAttendanceStatus,
+        #filterMembership {
+            background-color: #fff;
+            color: #111;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+        }
+
+        .dark-theme #filterAttendanceStatus,
+        .dark-theme #filterMembership {
+            background-color: var(--color-bg-muted);
+            color: var(--color-text-primary);
+            border-color: var(--color-border-strong);
+        }
+
+        /* Mobile responsiveness */
+        @@media (max-width: 767px) {
+            /* Stack card header vertically */
+            .card-header-primary {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+            }
+                /* Make filters full width on mobile */
+                .card-header-primary .d-flex.flex-wrap {
+                    width: 100%;
+                }
+
+                .card-header-primary input,
+                .card-header-primary select {
+                    width: 100% !important;
+                    flex: 1 1 100% !important;
+                }
+                /* Badge stays left-aligned on mobile */
+                .card-header-primary .badge-muted {
+                    align-self: flex-start;
+                }
+            /* Tighten up page padding on mobile */
+            .dataTables_wrapper .dataTables_info {
+                font-size: 0.78rem !important;
+            }
+
+            .dataTables_wrapper .dataTables_paginate .page-item .page-link {
+                min-width: 30px !important;
+                height: 30px !important;
+                font-size: 0.8rem !important;
+                padding: 0 6px !important;
+                margin: 0 1px !important;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('#updateForm input:not([type="hidden"])');
+            const editBtn = document.getElementById('editBtn');
+            const deleteBtn = document.getElementById('deleteBtn');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const genderInput = document.querySelector('input[name="Member.Gender"]');
+            const genderSelect = document.querySelector('select[name="Member.Gender"]');
+            const deleteToast = new bootstrap.Toast(document.getElementById('deleteToast'));
+
+            const originalValues = {};
+            inputs.forEach(input => originalValues[input.name] = input.value);
+
+            editBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                inputs.forEach(input => input.removeAttribute('readonly'));
+                genderInput.setAttribute('hidden', true);
+                genderInput.setAttribute('disabled', true);
+                genderSelect.removeAttribute('hidden');
+                genderSelect.value = genderInput.value;
+                editBtn.classList.add('d-none');
+                deleteBtn.classList.add('d-none');
+                confirmBtn.classList.remove('d-none');
+                cancelBtn.classList.remove('d-none');
+            });
+
+            cancelBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                inputs.forEach(input => input.value = originalValues[input.name]);
+                inputs.forEach(input => input.setAttribute('readonly', true));
+                genderInput.removeAttribute('hidden');
+                genderInput.removeAttribute('disabled');
+                genderSelect.setAttribute('hidden', true);
+                editBtn.classList.remove('d-none');
+                deleteBtn.classList.remove('d-none');
+                confirmBtn.classList.add('d-none');
+                cancelBtn.classList.add('d-none');
+            });
+
+            deleteBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                deleteToast.show();
+            });
+
+            const table = $('#recordsTable').DataTable({
+                pageLength: 20,
+                lengthChange: false,
+                searching: false,
+                dom: 'tip',
+                order: [[0, 'desc']],
+                language: {
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    paginate: {
+                        previous: '<i class="bi bi-chevron-left"></i>',
+                        next: '<i class="bi bi-chevron-right"></i>'
+                    }
+                }
+            })
         });
-
-        cancelBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            inputs.forEach(input => input.value = originalValues[input.name]);
-            inputs.forEach(input => input.setAttribute('readonly', true));
-            genderInput.removeAttribute('hidden');
-            genderInput.removeAttribute('disabled');
-            genderSelect.setAttribute('hidden', true);
-            editBtn.classList.remove('d-none');
-            deleteBtn.classList.remove('d-none');
-            confirmBtn.classList.add('d-none');
-            cancelBtn.classList.add('d-none');
-        });
-
-        deleteBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            deleteToast.show();
-        });
-    });
-</script>
+    </script>
+}
