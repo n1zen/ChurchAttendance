@@ -14,11 +14,18 @@
         </a>
     </div>
 
-    <div class="mb-3">
-        <h2 class="fw-bold mb-0" style="color: var(--color-text-primary);">List of Members</h2>
-        <p class="mb-0 small muted-text">
-            Date: <span class="fw-semibold member-id-text">@Model.dateToday</span>
-        </p>
+    <div class="mb-3 d-flex align-items-center justify-content-between">
+        <div>
+            <h2 class="fw-bold mb-0" style="color: var(--color-text-primary);">List of Members</h2>
+            <p class="mb-0 small muted-text">
+                Date: <span class="fw-semibold member-id-text">@Model.dateToday</span>
+            </p>
+        </div>
+        <form method="post" asp-page-handler="Export">
+            <button type="submit" class="btn outline-primary-btn px-5">
+                <i class="bi bi-filetype-csv me-2"></i>Export as CSV
+            </button>
+        </form>
     </div>
 
     <div class="card border-0 shadow-sm card-rounded">
