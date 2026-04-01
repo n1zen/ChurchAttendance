@@ -25,6 +25,29 @@
                 <input type="date" name="CurrentDate" class="form-control" style="border-color: var(--color-primary); max-width: 200px;" value="@Model.CurrentDate.ToString("yyyy-MM-dd")" onchange="this.form.submit()" />
             </div>
         </form>
+        <div class="dropdown">
+            <button class="btn fw-semibold px-3 py-2 btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="bi bi-download me-2"></i>Export
+            </button>
+            <ul class="dropdown-menu text-center mt-1 shadow-lg" style="background: var(--color-bg-subtle); border: 1px solid var(--color-border-strong);">
+                <li>
+                    <form method="post" asp-page-handler="ExportCSV">
+                        <input type="hidden" name="CurrentDate" value="@Model.CurrentDate.ToString("yyyy-MM-dd")" />
+                        <button type="submit" class="btn btn-primary btn-sm px-2 my-1">
+                            <i class="bi bi-filetype-csv me-2"></i>Export as CSV
+                        </button>
+                    </form>
+                </li>
+                <li>
+                    <form method="post" asp-page-handler="ExportExcel">
+                        <input type="hidden" name="CurrentDate" value="@Model.CurrentDate.ToString("yyyy-MM-dd")" />
+                        <button type="submit" class="btn btn-primary btn-sm px-2 my-1">
+                            <i class="bi bi-file-earmark-excel me-2"></i>Export as Excel
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <!-- Card -->

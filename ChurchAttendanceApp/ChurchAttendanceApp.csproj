@@ -11,10 +11,11 @@
     <Folder Include="Controllers\" />
     <Folder Include="Converters\" />
     <Folder Include="Data\" />
-    <Folder Include="Services\" />
+	<Folder Include="Services\"/>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
