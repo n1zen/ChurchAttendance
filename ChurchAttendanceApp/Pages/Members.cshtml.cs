@@ -1,8 +1,9 @@
+using ChurchAttendanceApp.Models;
+using ChurchAttendanceApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ChurchAttendanceApp.Services;
-using ChurchAttendanceApp.Models;
-using Microsoft.AspNetCore.Authorization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ChurchAttendanceApp.Pages
 {
@@ -25,15 +26,26 @@ namespace ChurchAttendanceApp.Pages
             Members = _memberService.GetAll();
         }
 
-        public async Task<IActionResult> OnPostExport()
+        public async Task<IActionResult> OnPostExportCSV()
         {
             var members = _memberService.GetAll();
 
             var columns = new List<string> { "Id", "MemberId", "Name", "Gender", "Birthday", "DateBaptized", "ChurchOfOrigin", "Address", "Email", "Phone", "MembershipStatus", "AttendanceDate", "DateRegistered" };
 
-            var file =  await _exportService.ExportMembers(members, columns);
-            return File(file, "text/csv", $"members.csv");
+            var file =  await _exportService.ExportMembersCSV(members, columns);
+            return File(file, "text/csv", "members.csv");
         }
+
+        public async Task<IActionResult> OnPostExportExcel()
+        {
+            var members = _memberService.GetAll();
+
+            var columns = new List<string> { "Id", "MemberId", "Name", "Gender", "Birthday", "DateBaptized", "ChurchOfOrigin", "Address", "Email", "Phone", "MembershipStatus", "AttendanceDate", "DateRegistered" };
+
+            var file = await _exportService.ExportMemberExcel(members, columns);
+            return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "members.xlsx");
+        }
+
         public bool CheckAttendance(Member member)
         {
             if (member.AttendanceDate == dateToday)

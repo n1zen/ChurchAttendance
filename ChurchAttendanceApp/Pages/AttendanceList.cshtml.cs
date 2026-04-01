@@ -33,14 +33,25 @@ namespace ChurchAttendanceApp.Pages
             Members = members;
         }
 
-        public async Task<IActionResult> OnPostExport()
+        public async Task<IActionResult> OnPostExportCSV()
         {
             AttendanceRecords = _attendanceService.GetByDate(CurrentDate);
             var members = AttendanceRecords.Select(a => a.Member!).ToList();
 
             var columns = new List<string> { "Id", "MemberId", "Name", "Gender", "Birthday", "DateBaptized", "ChurchOfOrigin", "Address", "Email", "Phone", "MembershipStatus", "AttendanceDate", "DateRegistered" };
-            var file = await _exportService.ExportMembers(members, columns);
+            var file = await _exportService.ExportMembersCSV(members, columns);
             return File(file, "text/csv", $"attendance-{CurrentDate}.csv");
+        }
+
+        public async Task<IActionResult> OnPostExportExcel()
+        {
+            AttendanceRecords = _attendanceService.GetByDate(CurrentDate);
+            var members = AttendanceRecords.Select(a => a.Member!).ToList();
+
+            var columns = new List<string> { "Id", "MemberId", "Name", "Gender", "Birthday", "DateBaptized", "ChurchOfOrigin", "Address", "Email", "Phone", "MembershipStatus", "AttendanceDate", "DateRegistered" };
+
+            var file = await _exportService.ExportMemberExcel(members, columns);
+            return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"attendance-{CurrentDate}.xlsx");
         }
     }
 }
