@@ -36,6 +36,7 @@ namespace ChurchAttendanceApp.Pages
                 Gender = Input.Gender,
                 Birthday = Input.Birthday,
                 DateBaptized = Input.DateBaptized,
+                ChurchOfOrigin = Input.ChurchOfOrigin,
                 Address = Input.Address,
                 Email = Input.Email,
                 Phone = Input.Phone,
@@ -65,6 +66,8 @@ public class NewMemberInputModel
     public DateOnly Birthday { get; set; }
 
     public DateOnly? DateBaptized { get; set; }
+
+    public string? ChurchOfOrigin { get; set; }
 
     public string? Address { get; set; }
 

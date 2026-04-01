@@ -14,20 +14,62 @@
         </a>
     </div>
 
-    <div class="mb-3">
-        <h2 class="fw-bold mb-0" style="color: var(--color-text-primary);">List of Members</h2>
-        <p class="mb-0 small muted-text">
-            Date: <span class="fw-semibold member-id-text">@Model.dateToday</span>
-        </p>
+    <div class="mb-3 d-flex align-items-center justify-content-between">
+        <div>
+            <h2 class="fw-bold mb-0" style="color: var(--color-text-primary);">List of Members</h2>
+            <p class="mb-0 small muted-text">
+                Date: <span class="fw-semibold member-id-text">@Model.dateToday</span>
+            </p>
+        </div>
+        <div class="dropdown">
+            <button class="btn fw-semibold px-3 py-2 btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="bi bi-download me-2"></i>Export
+            </button>
+            <ul class="dropdown-menu text-center mt-1 shadow-lg" style="background: var(--color-bg-muted); border: 1px solid var(--color-border-strong);">
+                <li>
+                    <form method="post" asp-page-handler="ExportCSV">
+                        <button type="submit" class="btn btn-primary btn-sm px-2 my-1">
+                            <i class="bi bi-filetype-csv me-2"></i>Export as CSV
+                        </button>
+                    </form>
+                </li>
+                <li>
+                    <form method="post" asp-page-handler="ExportExcel">
+                        <button type="submit" class="btn btn-primary btn-sm px-2 my-1">
+                            <i class="bi bi-file-earmark-excel me-2"></i>Export as Excel
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div class="card border-0 shadow-sm card-rounded">
-        <div class="px-4 py-3 d-flex align-items-center justify-content-between card-header-primary">
+        <div class="px-4 py-3 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 card-header-primary">
             <span class="fw-semibold">
                 <i class="bi bi-people-fill me-2"></i>Members
             </span>
-            <span class="badge rounded-pill fw-semibold px-3 py-2 badge-muted">
-                @Model.Members.Count member@(Model.Members.Count != 1 ? "s" : "")
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <input id="memberSearch" type="text" class="form-control form-control-sm"
+                       placeholder="Search members..." style="width: 180px; flex: 1;" />
+
+                <select id="filterMembership" class="form-select form-select-sm" style="width: 160px; flex: 1;">
+                    <option value="">All Members</option>
+                    <option value="Member">Member</option>
+                    <option value="Visitor">Visitor</option>
+                </select>
+
+                <select id="filterAttendanceStatus" class="form-select form-select-sm" style="width: 160px; flex: 1;">
+                    <option value="">All Attendance</option>
+                    <option value="Present">Present</option>
+                    <option value="Absent">Absent</option>
+                </select>
+            </div>
+            <span class="badge rounded-pill fw-semibold px-3 py-2 badge-muted align-self-start align-self-md-center">
+                @Model.Members.Count(m => m.MembershipStatus == "Member") member@(Model.Members.Count(m => m.MembershipStatus == "Member") != 1 ? "s" : "")
+            </span>
+            <span class="badge rounded-pill fw-semibold px-3 py-2 badge-muted align-self-start align-self-md-center">
+                @Model.Members.Count(m => m.MembershipStatus == "Visitor") visitor@(Model.Members.Count(m => m.MembershipStatus == "Visitor") != 1 ? "s" : "")
             </span>
         </div>
 
@@ -42,12 +84,14 @@
             else
             {
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
+                    <table class="table table-hover align-middle mb-0" id="membersTable">
                         <thead>
                             <tr class="text-center table-header-bg">
+                                <th class="text-nowrap py-3 fw-semibold">#</th>
                                 <th class="text-nowrap py-3 fw-semibold">Member ID</th>
                                 <th class="text-nowrap py-3 fw-semibold">Name</th>
                                 <th class="text-nowrap py-3 fw-semibold">Membership Status</th>
+                                <th class="text-nowrap py-3 fw-semibold">Church of Origin</th> 
                                 <th class="text-nowrap py-3 fw-semibold">Attendance Status</th>
                                 <th class="text-nowrap py-3 fw-semibold">Date Registered</th>
                                 <th class="text-nowrap py-3 fw-semibold">Action</th>
@@ -57,12 +101,26 @@
                             @foreach (var member in Model.Members)
                             {
                                 <tr class="text-center table-row-divider">
+                                    <td class="text-nowrap py-3">@member.Id</td>
                                     <td class="text-nowrap fw-semibold py-3 member-id-text">@member.MemberId</td>
                                     <td class="text-nowrap py-3" style="color: var(--color-text-primary);">@member.Name</td>
                                     <td class="text-nowrap py-3">
-                                        <span class="badge rounded-pill px-3 py-2 fw-medium badge-membership">
-                                            @member.MembershipStatus
-                                        </span>
+                                        <span class="badge rounded-pill px-3 py-2 fw-medium badge-membership">@member.MembershipStatus</span>
+                                    </td>
+                                    <td class="text-nowrap py-3">
+                                        @if (member.ChurchOfOrigin is null)
+                                        {
+                                            
+                                            <span class="badge rounded-pill px-3 py-2 fw-medium badge-absent">No Church of Origin</span>
+                                        }
+                                        else if (member.MembershipStatus == "Visitor")
+                                        {
+                                            <span class="badge rounded-pill px-3 py-2 fw-medium badge-present">@member.ChurchOfOrigin</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge rounded-pill px-3 py-2 fw-medium badge-membership">@member.ChurchOfOrigin</span>
+                                        }
                                     </td>
                                     <td class="text-nowrap py-3">
                                         @if (Model.CheckAttendance(member))
@@ -102,12 +160,164 @@
         </div>
     }
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const successToastEl = document.getElementById('successToast');
-        if (successToastEl) {
-            const successToast = new bootstrap.Toast(successToastEl);
-            successToast.show();
+@section Scripts {
+    <style>
+
+        /* Force headers centered */
+        table#membersTable > thead > tr > th {
+            text-align: center !important;
         }
-    });
-</script>
+
+        /* Remove white box from pagination container */
+        .dataTables_wrapper .dataTables_paginate .pagination {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            gap: 4px;
+        }
+
+        /* Center info and pagination */
+        .dataTables_wrapper .dataTables_info {
+            float: none !important;
+            display: block !important;
+            width: 100% !important;
+            text-align: center !important;
+            padding: 12px 16px 4px !important;
+            font-size: 0.85rem;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            float: none !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100% !important;
+            padding: 4px 16px 14px !important;
+        }
+
+        /* Dark mode pagination */
+        .dark-theme .dataTables_wrapper .dataTables_paginate .pagination {
+            background: transparent !important;
+        }
+
+        .dark-theme .dataTables_wrapper .dataTables_paginate .page-item .page-link {
+            background-color: transparent !important;
+            color: var(--color-primary) !important;
+            border: 2px solid var(--color-primary) !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            box-shadow: none !important;
+        }
+
+        .dark-theme .dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
+            background-color: var(--color-primary) !important;
+            color: #fff !important;
+        }
+
+        .dark-theme .dataTables_wrapper .dataTables_paginate .page-item .page-link:hover {
+            background-color: var(--color-primary) !important;
+            color: #fff !important;
+        }
+
+        .dark-theme .dataTables_wrapper .dataTables_paginate .page-item.disabled .page-link {
+            background-color: transparent !important;
+            opacity: 0.4 !important;
+        }
+        /* Filter selects in card header */
+        #filterAttendanceStatus,
+        #filterMembership {
+            background-color: #fff;
+            color: #111;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+        }
+
+        .dark-theme #filterAttendanceStatus,
+        .dark-theme #filterMembership {
+            background-color: var(--color-bg-muted);
+            color: var(--color-text-primary);
+            border-color: var(--color-border-strong);
+        }
+
+        /* Mobile responsiveness */
+        @@media (max-width: 767px) {
+            /* Stack card header vertically */
+            .card-header-primary {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+            }
+                /* Make filters full width on mobile */
+                .card-header-primary .d-flex.flex-wrap {
+                    width: 100%;
+                }
+
+                .card-header-primary input,
+                .card-header-primary select {
+                    width: 100% !important;
+                    flex: 1 1 100% !important;
+                }
+                /* Badge stays left-aligned on mobile */
+                .card-header-primary .badge-muted {
+                    align-self: flex-start;
+                }
+            /* Tighten up page padding on mobile */
+            .dataTables_wrapper .dataTables_info {
+                font-size: 0.78rem !important;
+            }
+
+            .dataTables_wrapper .dataTables_paginate .page-item .page-link {
+                min-width: 30px !important;
+                height: 30px !important;
+                font-size: 0.8rem !important;
+                padding: 0 6px !important;
+                margin: 0 1px !important;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if ($.fn.DataTable.isDataTable('#membersTable')) {
+                $('#membersTable').DataTable().destroy();
+            }
+
+            const table = $('#membersTable').DataTable({
+                pageLength: 20,
+                lengthChange: false,
+                searching: true,
+                dom: 'tip',
+                order: [[0, 'desc']],
+                columnDefs: [
+                    { orderable: false, targets: [3, 4, 5, 7] },
+                ],
+                language: {
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    paginate: {
+                        previous: '<i class="bi bi-chevron-left"></i>',
+                        next: '<i class="bi bi-chevron-right"></i>'
+                    }
+                }
+            });
+
+            // Fix: use jQuery .on() instead of addEventListener
+            // because DataTables may re-render the input on init
+            $('#memberSearch').on('keyup', function() {
+                table.search($(this).val()).draw();
+            });
+
+            $('#filterMembership').on('change', function() {
+                table.column(3).search($(this).val() ? '^' + $(this).val() + '$' : '', true, false).draw();
+            });
+
+            $('#filterAttendanceStatus').on('change', function() {
+                table.column(4).search($(this).val() ? '^' + $(this).val() + '$' : '', true, false).draw();
+            });
+
+            const successToastEl = document.getElementById('successToast');
+            if (successToastEl) {
+                new bootstrap.Toast(successToastEl).show();
+            }
+        });
+    </script>
+}

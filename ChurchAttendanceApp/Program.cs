@@ -59,6 +59,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddHttpClient<BibleVerseService>();
 builder.Services.AddScoped<MemberService>();
 builder.Services.AddScoped<AttendanceService>();
+builder.Services.AddScoped<ExportService>();
 
 builder.Services.AddRazorPages();
 
