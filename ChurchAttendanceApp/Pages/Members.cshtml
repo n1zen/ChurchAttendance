@@ -4,7 +4,7 @@
     ViewData["Title"] = "Member List";
 }
 
-<div class="w-100" style="max-width: 1100px">
+<div class="w-100" style="max-width: 1250px">
     <div class="mb-3 d-flex align-items-center justify-content-between gap-3">
         <button class="btn fw-semibold px-3 py-2 outline-primary-btn" onclick="history.back()">
             <i class="bi bi-arrow-left me-2"></i>Back
@@ -73,7 +73,7 @@
             </span>
         </div>
 
-        <div class="card-body p-0">
+        <div class="card-body px-3 py-0">
             @if (!Model.Members.Any())
             {
                 <div class="d-flex flex-column justify-content-center align-items-center py-5 gap-2">
