@@ -4,7 +4,7 @@
     ViewData["Title"] = "Attendance List";
 }
 
-<div class="w-100" style="max-width: 1000px">
+<div class="w-100" style="max-width: 1250px">
     <button class="btn fw-semibold px-3 py-2 mb-4 align-self-start outline-primary-btn" onclick="history.back()">
         <i class="bi bi-arrow-left me-2"></i>Back
     </button>
@@ -85,7 +85,7 @@
         </div>
 
         <!-- Card Body -->
-        <div class="card-body p-0">
+        <div class="card-body px-3 py-0">
             @if (!Model.Members.Any())
             {
                 <div class="d-flex flex-column justify-content-center align-items-center py-5 gap-2">
@@ -112,6 +112,7 @@
                                 <th class="text-nowrap py-3 fw-semibold">Member ID</th>
                                 <th class="text-nowrap py-3 fw-semibold">Name</th>
                                 <th class="text-nowrap py-3 fw-semibold">Gender</th>
+                                <th class="text-nowrap py-3 fw-semibold">Address</th>
                                 <th class="text-nowrap py-3 fw-semibold">Membership Status</th>
                                 <th class="text-nowrap py-3 fw-semibold">Church of Origin</th>
                                 <th class="text-nowrap py-3 fw-semibold">Date Registered</th>
@@ -127,12 +128,21 @@
                                     <td class="text-nowrap py-3" style="color: var(--color-text-primary)">@member.Name</td>
                                     <td class="text-nowrap py-3" style="color: var(--color-text-primary)">@member.Gender</td>
                                     <td class="text-nowrap py-3">
+                                        @if (member.Address is null)
+                                        {
+                                            <span class="badge rounded-pill px-3 py-2 fw-medium badge-absent">No Address</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge rounded-pill px-3 py-2 fw-medium badge-present">@member.Address</span>
+                                        }
+                                    </td>
+                                    <td class="text-nowrap py-3">
                                         <span class="badge rounded-pill px-3 py-2 fw-medium badge-membership">@member.MembershipStatus</span>
                                     </td>
                                     <td class="text-nowrap py-3">
                                         @if (member.ChurchOfOrigin is null)
                                         {
-                                            
                                             <span class="badge rounded-pill px-3 py-2 fw-medium badge-absent">No Church of Origin</span>
                                         }
                                         else if (member.MembershipStatus == "Visitor")
@@ -285,7 +295,7 @@
                 dom: 'tip',
                 order: [[0, 'desc']],
                 columnDefs: [
-                    { orderable: false, targets: [3, 4, 5, 7] }
+                    { orderable: false, targets: [3, 4, 5, 6, 7] }
                 ],
                 language: {
                     info: "Showing _START_ to _END_ of _TOTAL_ entries",
