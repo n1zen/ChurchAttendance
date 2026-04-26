@@ -11,7 +11,16 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ChurchDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        npgsqlOptions =>
+        {
+            npgsqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorCodesToAdd: null);
+            npgsqlOptions.CommandTimeout(60);
+        }
+    ));
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
@@ -64,6 +73,25 @@ builder.Services.AddScoped<ExportService>();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ChurchDbContext>();
+    var retries = 0;
+    while (retries < 5)
+    {
+        try
+        {
+            await db.Database.CanConnectAsync();
+            break;
+        }
+        catch
+        {
+            retries++;
+            await Task.Delay(TimeSpan.FromSeconds(3));
+        }
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {
