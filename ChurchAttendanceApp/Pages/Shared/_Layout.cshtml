@@ -72,6 +72,12 @@
                                     <i class="bi bi-calendar-check-fill me-2 d-lg-none"></i>Attendance
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-3 py-2 fw-medium fabac-nav-link text-center @(currentPage == "/Account/Profile" ? "fabac-nav-link--active" : "")"
+                                       asp-page="/Account/Profile">
+                                    <i class="bi bi-calendar-check-fill me-2 d-lg-none"></i>Profile
+                                </a>
+                            </li>
                         }
 
                         <!-- Desktop divider only -->
@@ -87,7 +93,7 @@
                         <!-- User chip -->
                         <li class="nav-item d-flex align-items-center gap-2 px-3 py-1 user-chip justify-content-center">
                             <i class="bi bi-person-circle"></i>
-                            <span class="fw-medium small user-chip-text">Admin</span>
+                            <span class="fw-medium small user-chip-text">@User.Identity!.Name</span>
                         </li>
 
                         <!-- Log Out -->
