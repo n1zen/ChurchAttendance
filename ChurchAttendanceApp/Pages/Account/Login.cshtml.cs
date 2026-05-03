@@ -45,8 +45,11 @@ public class LoginModel : PageModel
 
         if (!ModelState.IsValid) return Page();
 
+        var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+        if (user == null) return Page();
+
         var result = await _signInManager.PasswordSignInAsync(
-            Input.Email,
+            user.UserName!,
             Input.Password,
             Input.RememberMe,
             lockoutOnFailure: false); 

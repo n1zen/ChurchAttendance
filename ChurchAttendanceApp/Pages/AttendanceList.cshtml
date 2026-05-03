@@ -313,7 +313,7 @@
             });
 
             $('#filterMembership').on('change', function() {
-                table.column(4).search($(this).val() ? '^' + $(this).val() + '$' : '', true, false).draw();
+                table.column(5).search($(this).val() ? '^' + $(this).val() + '$' : '', true, false).draw();
             });
 
             $('#filterGender').on('change', function() {

@@ -1,0 +1,109 @@
+﻿@page
+@model ChurchAttendanceApp.Pages.Account.ProfileModel
+@{
+    ViewData["Title"] = Model.Input.UserName;
+}
+
+<div class="container py-4">
+    <div class="mb-4">
+        <a href="javascript:history.back()" class="outline-primary-btn btn px-3 py-2">
+            <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+    </div>
+
+    <div class="mx-auto max-w-600">
+
+        @if (Model.StatusMessage != null)
+        {
+            <div class="alert alert-success mb-4">@Model.StatusMessage</div>
+        }
+        <div class="card card-rounded mb-4 border-0 shadow-sm">
+            <div class="card-header-primary text-center py-4 px-4">
+                <h4 class="fw-bold mb-1">My Profile</h4>
+                <p class="header-subtext mb-0" style="font-size:0.9rem;">Manage your account information</p>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" asp-page-handler="Profile">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.UserName" class="form-label fw-semibold muted-text"></label>
+                        <input asp-for="Input.UserName" class="form-control input-border" />
+                        <span asp-validation-for="Input.UserName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Input.Email" class="form-label fw-semibold muted-text"></label>
+                        <input asp-for="Input.Email" class="form-control input-border" />
+                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-fabac w-100 py-2 fw-semibold">
+                        <i class="bi bi-check-lg me-1"></i> Save Changes
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card card-rounded mb-4 border-0 shadow-sm">
+            <div class="card-header-primary text-center py-4 px-4">
+                <h4 class="fw-bold mb-1">Change Password</h4>
+                <p class="header-subtext mb-0" style="font-size:0.9rem;">Update your login credentials</p>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" asp-page-handler="Password">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="PasswordChange.CurrentPassword" class="form-label fw-semibold muted-text"></label>
+                        <input asp-for="PasswordChange.CurrentPassword" class="form-control input-border" />
+                        <span asp-validation-for="PasswordChange.CurrentPassword" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="PasswordChange.NewPassword" class="form-label fw-semibold muted-text"></label>
+                        <input asp-for="PasswordChange.NewPassword" class="form-control input-border" />
+                        <span asp-validation-for="PasswordChange.NewPassword" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="PasswordChange.ConfirmNewPassword" class="form-label fw-semibold muted-text"></label>
+                        <input asp-for="PasswordChange.ConfirmNewPassword" class="form-control input-border" />
+                        <span asp-validation-for="PasswordChange.ConfirmNewPassword" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100 py-2 fw-semibold">
+                        <i class="bi bi-lock me-1"></i> Change Password
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3 w-auto" style="z-index: 9999">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div id="successToast" class="toast align-items-center text-white bg-info border-0 w-auto"
+                 role="alert" data-bs-autohide="true" data-bs-delay="3000">
+                <div class="d-flex">
+                    <div class="toast-body fw-semibold d-flex flex-row gap-2 text-nowrap">
+                        <i class="bi bi-check-lg"></i> @TempData["SuccessMessage"]
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto flex-shrink-0" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const successToastEl = document.getElementById('successToast');
+            if (successToastEl) {
+                new bootstrap.Toast(successToastEl).show();
+            }
+        });
+    </script>
+}
